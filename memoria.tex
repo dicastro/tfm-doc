@@ -1,5 +1,16 @@
 \documentclass[]{article}
 
+% to define bibliography and insert cites
+\usepackage[backend=biber]{biblatex}
+\addbibresource{references.bib}
+
+% to insert framets of code
+\usepackage{listings}
+
+% to make links clickable
+\usepackage{hyperref}
+\hypersetup{colorlinks=false,linktoc=all}
+
 %opening
 \title{Sistema de detección automática de socavones en el asfalto a partir de imágenes}
 \author{Diego Castro Viadero}
@@ -31,113 +42,135 @@ Los principales beneficios son:
 \end{abstract}
 
 \newpage
-\tableofcontents{Contenido}
+\tableofcontents{}
 \newpage
 
 \section{Introducción}
 
 \subsection{Motivación y Objetivos}
 
-TODO
+\textbf{!!! TODO}
 
 \subsection{Tecnologías}
 
-TODO
+\textbf{!!! TODO}
 
 \subsection{Estructura del trabajo}
 
-TODO
+\textbf{!!! TODO}
 
 \section{Análisis y Diseño}
 
 \subsection{Análisis y Definición de requisitos}
 
-TODO
+\textbf{!!! TODO}
 
 \subsection{Arquitectura}
 
-TODO
+\textbf{!!! TODO}
 
 \subsection{Diseño}
 
-TODO
+\textbf{!!! TODO}
 
 \subsection{Alcance del proyecto}
 
-TODO
+\textbf{!!! TODO}
 
 
 \section{Datos}
 
 \subsection{Descripción de las fuentes de datos a utilizar}
 
-TODO
+El juego de datos ha sido obtenido de kaggle \cite{potholedataset} y se compone de un total de 1900 imágenes, con un tamaño igual a 3680x2760 px (formato 4:3), y de ficheros de texto con el etiquetado de las mismas. Las imágenes se dividen en dos subconjuntos: uno de 1297 imágenes para el entrenamiento y otro de 603 imágenes para la evaluación del modelo. Por cada uno de los subconjuntos de imágenes existe un fichero de texto con el etiquetado. Cada una de las líneas del los ficheros de texto contiene las etiquetas de una imagen. La estructura de cada línea es la siguiente:
+
+\begin{lstlisting}[frame=single,basicstyle=\ttfamily\footnotesize]
+<IMG_PATH> <NUMBER_OF_LABELS>( <X0> <Y0> <WIDTH> <HEIGHT>)+
+\end{lstlisting}
+
+Para facilitar el posterior tratamiento, se ha realizado una transformación del formato de los ficheros de etiquetas al siguiente formato:
+
+\begin{lstlisting}[frame=single,basicstyle=\ttfamily\footnotesize]
+<IMG_PATH>( <X0>,<Y0>,<WIDTH>,<HEIGHT>,<CLASS>)+
+\end{lstlisting}
 
 \subsection{Estudio de los datos (reporting)}
 
-TODO
+\textbf{!!! TODO}
+\begin{itemize}
+	\item añadir distribución de las anchuras
+	\item añadir distribución de las alturas
+	\item heatmap de la distribución
+\end{itemize}
 
 \subsection{Limpieza y normalización de los datos}
 
-TODO
-
+\textbf{!!! TODO}
+\begin{itemize}
+	\item explicar diferencia de tamaño entre redimensión directa vs crop + redimension
+	\item explicar la normalización que se hace /255
+	\item explicar el filtrado que se hace
+\end{itemize}
 
 \section{Técnicas de (Deep) Machine Learning y métodos de evaluación}
 
-TODO
+\textbf{!!! TODO}
 
 
 \subsection{Explicar las técnicas de ML que se van a utilizar en el proyecto}
 
-TODO
+\textbf{!!! TODO}
 
 \subsection{Explicar los métodos de evaluación que se van a utilizar en el proyecto}
 
-TODO
+\textbf{!!! TODO}
 
 
 \section{Implementación y evaluación de las técnicas}
 
 \subsection{Detalles de la implementación de las técnicas de ML aplicadas}
 
-TODO
+\textbf{!!! TODO}
 
 \subsection{Evaluación de las técnicas}
 
-TODO
+\textbf{!!! TODO}
 
 
 \section{Resultados}
 
 \subsection{Persistencia y almacenado de datos}
 
-TODO
+\textbf{!!! TODO}
 
 \subsection{Agente (ML)}
 
-TODO
+\textbf{!!! TODO}
 
 \subsection{Visualización}
 
-TODO
+\textbf{!!! TODO}
 
 \subsection{Resultados del proyecto}
 
-TODO
+\textbf{!!! TODO}
 
 
 \section{Conclusiones}
 
 \subsection{Evaluación del proyecto}
 
-TODO
+\textbf{!!! TODO}
 
 \subsection{Alternativas y posibles mejoras que podrían haberse aplicado al proyecto (trabajos futuros)}
 
-TODO
+\textbf{!!! TODO}
 
 \subsection{Conclusiones personales}
 
-TODO
+\textbf{!!! TODO}
+
+\newpage
+\printbibliography[title={Referencias}]
 
 \end{document}
