@@ -11,12 +11,17 @@
 \usepackage{hyperref}
 \hypersetup{colorlinks=false,linktoc=all}
 
+% include images
+\usepackage{graphicx}
+\usepackage{float}
+
 %opening
 \title{Sistema de detección automática de socavones en el asfalto a partir de imágenes}
 \author{Diego Castro Viadero}
 \date{Septiembre 2019}
 
 \renewcommand*\contentsname{Contenido}
+\renewcommand{\figurename}{Figura}
 
 \begin{document}
 
@@ -30,28 +35,28 @@
 \tableofcontents{}
 
 \newpage
-\include{t1}
+\include{t1} % (2-4 páginas)
 
 \newpage
-\include{t2}
+\include{t2} % (como mucho 10 páginas)
 
 \newpage
-\include{t3}
+\include{t3} % (2-4 páginas)
 
 \newpage
-\include{t4}
+\include{t4} % (<4 páginas)
 
 \newpage
-\include{t5}
+\include{t5} % (<6 páginas)
 
 \newpage
-\include{t6}
+\include{t6} % ()Aquí no te pongo límite de páginas)
 
 \newpage
-\include{t7}
+\include{t7} % (< 3 páginas)
 
 \newpage
-\include{t8}
+\include{t8} % (< 3  páginas)
 
 \newpage
 \printbibliography[title={Referencias}]
