@@ -22,192 +22,36 @@
 
 \maketitle
 
-\begin{abstract}
-El estado del asfalto en carreteras tanto de ámbito nacional como de ámbito urbano es de alta importancia en relación a la seguridad vial. En la actualidad, no existe un sistema de detección automática de socavones en el asfalto. Tan sólo se tiene conocimineto de los mismos cuando han sido los causantes de un accidente vial o de una queja ciudadana (detección pasiva).
+\include{abstract_es}
 
-Este proyecto pretende desarrollar un sistema de detección automática y activa de socavones a partir de imágenes, que permita a las autoridades pertinentes conocer el número y ubicación de los mismos. Los principales objetivos son:
-
-\begin{itemize}
-	\item Detección temprana y activa de socavones a partir de imágenes
-	\item Creación de una base de datos con la relación de socavones detectados (número y ubicación)
-\end{itemize}
-
-Los principales beneficios son:
-
-\begin{itemize}
-	\item Optimización de recursos necesarios para la reparación de socavones
-	\item Aumentar la seguridad vial de las carreteras y evitar accidentes
-	\item Aumentar la satisfacción de la ciudadanía en relación al estado de las carreteras de su municipio
-\end{itemize}
-\end{abstract}
+\include{abstract_en}
 
 \newpage
 \tableofcontents{}
 
+\newpage
+\include{t1}
 
 \newpage
-\section{Introducción}
-
-% (2-4 páginas)
-
-\subsection{Motivación y Objetivos}
-
-% (porque has hecho este proyecto y que objetivos persigues)
-
-\textbf{!!! TODO}
-
-\subsection{Estructura del trabajo}
-
-% (este punto es pura formalidad. Se suele poner uno o dos párrafos explicando la estructura del proyecto como hacen en los libros)
-
-\textbf{!!! TODO}
-
+\include{t2}
 
 \newpage
-\section{Estado del arte}
-
-% (como mucho 10 páginas)
-
-% En el punto de motivación y objetivos debes de dejar muy claro que es lo que quieres hacer (un detector de baches) y en este tema 2 debes de explicar como se solucionan este tipo de problemas (CNN) y las redes y frameworks existentes para poder realizar tu trabajo. Como esto ya es una cosa que has hecho (me lo mandaste en un mail muy bien explicado) debes de contar los pros y contras y justificar el porque has seleccionado la red seleccionada
-
+\include{t3}
 
 \newpage
-\section{Definición de requisitos y análisis}
-
-% (2-4 páginas)
-
-\subsection{Definición de requisitos}
-
-%  (que se quiere hacer definido de una manera formal)
-
-\textbf{!!! TODO}
-
-\subsection{Análisis}
-
-% (que se necesita para llevar a cabo este proyecto)
-
-\textbf{!!! TODO}
-
-\subsection{Arquitectura}
-
-% (Haz un diagrama y luego explicalo, asi te valdrá para la presentación del proyecto)
-
-\textbf{!!! TODO}
-
-\subsection{Tecnologías}
-
-% (Esto es poco más que enumerar lo que vas a utilizar)
-
-\textbf{!!! TODO}
-
-\subsection{Alcance del proyecto}
-
-% (Obviamente no es un producto "profesional" ni final lo que vas a realizar con lo cual tienes que dejar claro los límites de tu proyecto)
-
-\textbf{!!! TODO}
-
+\include{t4}
 
 \newpage
-\section{Datos}
-
-% (<4 páginas)
-
-\subsection{Descripción de las fuentes de datos a utilizar}
-
-El juego de datos ha sido obtenido de kaggle \cite{potholedataset} y se compone de un total de 1900 imágenes, con un tamaño igual a 3680x2760 px (formato 4:3), y de ficheros de texto con el etiquetado de las mismas. Las imágenes se dividen en dos subconjuntos: uno de 1297 imágenes para el entrenamiento y otro de 603 imágenes para la evaluación del modelo. Por cada uno de los subconjuntos de imágenes existe un fichero de texto con el etiquetado. Cada una de las líneas del los ficheros de texto contiene las etiquetas de una imagen. La estructura de cada línea es la siguiente:
-
-\begin{lstlisting}[frame=single,basicstyle=\ttfamily\footnotesize]
-<IMG_PATH> <NUMBER_OF_LABELS>( <X0> <Y0> <WIDTH> <HEIGHT>)+
-\end{lstlisting}
-
-Para facilitar el posterior tratamiento, se ha realizado una transformación del formato de los ficheros de etiquetas al siguiente formato:
-
-\begin{lstlisting}[frame=single,basicstyle=\ttfamily\footnotesize]
-<IMG_PATH>( <X0>,<Y0>,<WIDTH>,<HEIGHT>,<CLASS>)+
-\end{lstlisting}
-
-\subsection{Estudio de los datos (reporting)}
-
-\textbf{!!! TODO}
-\begin{itemize}
-	\item añadir distribución de las anchuras
-	\item añadir distribución de las alturas
-	\item heatmap de la distribución
-\end{itemize}
-
-\subsection{Limpieza y normalización de los datos}
-
-\textbf{!!! TODO}
-\begin{itemize}
-	\item explicar diferencia de tamaño entre redimensión directa vs crop + redimension
-	\item explicar la normalización que se hace /255
-	\item explicar el filtrado que se hace
-\end{itemize}
+\include{t5}
 
 \newpage
-\section{Técnicas de Deep Learning y métodos de evaluación}
-
-% (<6 páginas)
-
-\textbf{!!! TODO}
-
-\subsection{Explicar las técnicas de DL que se van a utilizar en el proyecto}
-
-% (Esto sería parte teórica)
-
-\textbf{!!! TODO}
-
-\subsection{Explicar los métodos de evaluación que se van a utilizar en el proyecto}
-
-% (Esto sería parte teórica)
-
-\textbf{!!! TODO}
-
+\include{t6}
 
 \newpage
-\section{Implementación y evaluación de las técnicas}
-
-% (Aquí no te pongo límite de páginas. Explícalo como quieras ya que es la parte en la que tienes que explicar el trabajo técnico que has realizado.)
-
-\subsection{Detalles de la implementación de las técnicas de DL aplicadas}
-
-% (Esto sería parte práctica)
-
-\textbf{!!! TODO}
-
-\subsection{Evaluación de las técnicas}
-
-% (Esto sería parte práctica)
-
-\textbf{!!! TODO}
-
+\include{t7}
 
 \newpage
-\section{Resultados}
-
-% (< 3 páginas)
-
-\subsection{Resultados del proyecto}
-
-\textbf{!!! TODO}
-
-
-\newpage
-\section{Conclusiones}
-
-% (< 3  páginas)
-
-\subsection{Evaluación del proyecto}
-
-\textbf{!!! TODO}
-
-\subsection{Alternativas y posibles mejoras que podrían haberse aplicado al proyecto (trabajos futuros)}
-
-\textbf{!!! TODO}
-
-\subsection{Conclusiones personales}
-
-\textbf{!!! TODO}
+\include{t8}
 
 \newpage
 \printbibliography[title={Referencias}]
