@@ -1,3 +1,26 @@
 \section{Estado del arte}
 
 % En el punto de motivación y objetivos debes de dejar muy claro que es lo que quieres hacer (un detector de baches) y en este tema 2 debes de explicar como se solucionan este tipo de problemas (CNN) y las redes y frameworks existentes para poder realizar tu trabajo. Como esto ya es una cosa que has hecho (me lo mandaste en un mail muy bien explicado) debes de contar los pros y contras y justificar el porque has seleccionado la red seleccionada
+
+Con respecto al cómo afrontar el problema, he visto que existen 2 maneras de hacerlo:
+
+- clasificación de imágenes
+- identificación de objetos
+
+El primero de los enfoques es más sencillo y está más estudiado. Dada una imagen centrada en un objeto, determinar de qué clase es el objeto. La forma de resolverlo sería con una red neuronal convolucional. Ya existen distintas arquitecturas de redes convolucionales estudiadas para resolver este tipo de problemas (VGG-16, LeNet, ResNet, GoogLeNet/Inception, etc.). Dudo de si este sería un enfoque válido para el problema en cuestión ya que las imágenes no están centradas en los baches y los baches representan una superficie ínfima de la imagen.
+
+El segundo de los enfoques es más complicado y está en continua mejora en los últimos años.
+
+Existen dos formas para resolver este problema:
+
+- técnicas de machine learning clásicas (Viola-Jones [HAR], HOG + SVM)
+- deep learning
+
+El uso del deep learning es lo que ha supuesto una revolución y es el que está en continua mejora en los últimos años. Las principales técnicas usando Deep learning son:
+
+- R-CNN
+- Fast R-CNN
+- Faster R-CNN
+- SDD
+- YOLO (YOLO, YOLOv2, YOLOv3)
+- Mask R-CNN
