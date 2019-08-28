@@ -5,13 +5,13 @@
 El juego de datos ha sido obtenido de kaggle \cite{potholedataset} y se compone de un total de 1900 imágenes, tomadas desde el interior de un coche, con un tamaño igual a 3680x2760 píxeles (formato 4:3), y de un conjunto de ficheros de texto con el etiquetado de las mismas. Las imágenes se dividen en dos subconjuntos: uno de 1297 imágenes para el entrenamiento y otro de 603 imágenes para la evaluación del modelo. Por cada uno de los subconjuntos de imágenes existe un fichero de texto con el etiquetado de las mismas. Cada una de las líneas del los ficheros de texto contiene las etiquetas de una imagen. La estructura de cada línea es la siguiente:
 
 \begin{lstlisting}[frame=single,basicstyle=\ttfamily\footnotesize]
-<IMG_PATH> <NUMBER_OF_LABELS>( <X0> <Y0> <WIDTH> <HEIGHT>)+
+<RUTA_IMG> <NUMERO_DE_ETIQUETAS>( <X0> <Y0> <ANCHO> <ALTO>)+
 \end{lstlisting}
 
 Para facilitar el posterior tratamiento, se ha realizado una transformación del formato de los ficheros de etiquetas al siguiente formato:
 
 \begin{lstlisting}[frame=single,basicstyle=\ttfamily\footnotesize]
-<IMG_PATH>( <X0>,<Y0>,<WIDTH>,<HEIGHT>,<CLASS>)+
+<RUTA_IMG>( <X0>,<Y0>,<ANCHO>,<ALTO>,<CLASE>)+
 \end{lstlisting}
 
 \subsection{Estudio de los datos}
@@ -22,7 +22,7 @@ Como se observa en la figura \ref{fig:potholesizes}, la mayoría de los socavone
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\linewidth]{images/pothole_sizes_scatter_plot.png}
+	\includegraphics[width=0.7\linewidth]{images/pothole_sizes_scatter_plot.png}
 	\caption{Tamaños de los socavones en píxeles}
 	\label{fig:potholesizes}
 \end{figure}
@@ -31,16 +31,34 @@ También se ha realizado un estudio de la localización de los socavones en las 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\linewidth]{images/pothole_locations_heatmap.png}
+	\includegraphics[width=0.7\linewidth]{images/pothole_locations_heatmap.png}
 	\caption{Localizaciones de los socavones en las imágenes}
 	\label{fig:potholeslocations}
 \end{figure}
 
-\subsection{Limpieza y normalización de los datos}
+\subsection{Preprocesamiento de las imágenes}
+\label{subsec:preprocesamiento_de_las_imagenes}
 
-\textbf{!!! TODO}
-\begin{itemize}
-	\item explicar diferencia de tamaño entre redimensión directa vs crop + redimension
-	\item explicar la normalización que se hace /255
-	\item explicar el filtrado que se hace
-\end{itemize}
+Tanto en la fase de entrenamiento, como para hacer una predicción, las imágenes van a ser redimensionadas al tamaño de la red neuronal, la cual tiene una relación de aspecto 1:1. Para redimensionar una imagen con una relación de aspecto 4:3, y al mismo tiempo, transformarla en una imagen con relación de aspecto 1:1, lo que se hace es redimensionar el lado más grande de la imagen manteniendo la relación de aspecto, es decir, aplicando el mismo factor de redimensionamiento al lado más pequeño. Una vez redimensionada, se rellena con gris la zona superior y la zona inferior de la imagen para cuadrarla. En la figura \ref{fig:imagedirectresize} se muestra un ejemplo gráfico.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[h]{0.45\linewidth}
+		\includegraphics[width=\linewidth]{images/image_direct_resize_before.jpg}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.45\linewidth}
+		\includegraphics[width=\linewidth]{images/image_direct_resize_after.jpg}
+	\end{subfigure}
+	\caption{A la izquierda la imagen original redimensionada a tamaño 920x690 px (manteniendo la relación de aspecto 4:3). A la derecha la imagen redimensionada con el relleno para que tenga una relación de aspecto 1:1 (920x920 px)}
+	\label{fig:imagedirectresize}
+\end{figure}
+
+El redimensionamiento se hace en base al lado más grande de la imagen, que en el ejemplo anterior es la anchura. Para determinar el factor de redimensionamiento, se divide la anchura la imagen final entre la anchura de la imagen original, en este caso: $920 / 3680 = 0.25$. A continuación, se aplica este factor de redimensionamiento a ambos lados de la imagen, resultando en un tamaño de 920x690 píxeles. Por último se calcula el relleno que haría falta a cada lado de la imagen: $(920 - 690) / 2 = 115$.
+
+Siguiendo con este ejemplo, si en la imagen original hubiese un socavón de tamaño 160x24 píxeles, y se aplicase este factor de redimensionamiento, el socavón redimensionado tendría unas dimensiones de 40x6 píxeles, lo cual sería un tamaño bastante pequeño ya que únicamente tiene 6 píxeles de alto (de 920 que tiene la imagen).
+
+Sin embargo, si previo al redimensionamiento de la imagen, se recortan los extremos izquierdo y derecho de la imagen, de tal forma que tenga una relación de aspecto 1:1, se consigue que el factor de redimensionamiento sea mayor y que por tanto los socavones redimensionados sean también más grandes. Esta técnica tiene un inconveniente, y es que la imagen original se está recortando, por lo que está habiendo una pérdida de información. Este inconveniente no es un impedimento, ya que en el apartado ~\ref{subsec:preprocesamiento_de_las_imagenes} se ha comprobado que la mayor parte de los socavones están en el centro de las imágenes, y que recortando los extremos de las mismas la pérdida de información es mínima.
+
+Para aplicar esta técnica, en primer lugar habría que calcular los recortes que hay que hacer a cada lado de la imagen original. Para ello se calcula la diferencia entre la anchura y la altura de la imagen y se divide por dos: $(3680 - 2760) / 2 = 460$. Una vez recortada la imagen se calcula el factor de redimensionamiento: $920 / 2760 = 0.333$. Por último se aplicaría este factor de redimensionamiento a la altura y la anchura de la imagen.
+
+Si aplicamos este nuevo factor de redimensionamiento al tamaño del socavón del ejemplo anterior (160x24 píxeles), el tamaño del socavón redimensionado sería 53x8 (un 75\% más grande).

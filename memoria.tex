@@ -13,7 +13,12 @@
 
 % include images
 \usepackage{graphicx}
-\usepackage{float}
+\usepackage{caption}    % contains subpackage 'subcaption'
+\usepackage{subcaption} % allows subfigures
+\usepackage{float}      % allows floating H to place images in certain place
+
+% paragraph spacing
+\usepackage{parskip}
 
 %opening
 \title{Sistema de detección automática de socavones en el asfalto a partir de imágenes}
@@ -50,7 +55,7 @@
 \include{s5} % (<6 páginas)
 
 \newpage
-\include{s6} % ()Aquí no te pongo límite de páginas)
+\include{s6} % (Aquí no te pongo límite de páginas)
 
 \newpage
 \include{s7} % (< 3 páginas)
