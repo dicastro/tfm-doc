@@ -47,14 +47,28 @@ Tanto en el cálculo de la \textit{precisión} como en el cálculo de la \textit
 
 La métrica \textit{AP} se calcula como el área debajo de la curva \textit{precisión-sensibilidad} (precision-recall). En el eje de las abscisas se representa la \textit{sensibilidad} (recall) y en el eje de las ordenadas se representa la \textit{precisión} (precision).
 
-A continuación se va a mostrar un ejemplo práctico de cómo se calcula la \textit{AP}. Para este ejemplo se dispone de una serie de imágenes con un total de 4 socavones a detectar. En la figura \ref{fig:apprecisionrecalltable} se puede ver el cálculo de la \textit{precisión} y de la \textit{sensibilidad} para las predicciones obtenidas. La columna \textit{Positivo} indica si la predicción es positiva, es decir, si el valor de \textit{IoU} supera el umbral definido, que en este caso es 0.5. Las columnas \textit{TP} y \textit{FP} muestran el acumulado de sus respectivos valores.
+A continuación se va a mostrar un ejemplo práctico de cómo se calcula la \textit{AP}. Para este ejemplo se dispone de una serie de imágenes con un total de 4 socavones a detectar. En la tabla \ref{tab:apprecisionrecalltable} se puede ver el cálculo de la \textit{precisión} y de la \textit{sensibilidad} para las predicciones obtenidas. La columna \textit{Positivo} indica si la predicción es positiva, es decir, si el valor de \textit{IoU} supera el umbral definido, que en este caso es 0.5. Las columnas \textit{TP} y \textit{FP} muestran el acumulado de sus respectivos valores.
 
-\begin{figure}[H]
+\begin{table}[H]
 	\centering
-	\includegraphics[width=0.6\linewidth]{images/ap_precision_recall_table.png}
+	\begin{tabular}{rrrrrr}
+		\toprule
+		IoU &  Positivo &  TP &  FP &  Precisión &  Sensibilidad \\
+		\midrule
+		0.912933 &         1 &   1 &   0 &   1.000000 &          0.25 \\
+		0.711111 &         1 &   2 &   0 &   1.000000 &          0.50 \\
+		0.387983 &         0 &   2 &   1 &   0.666667 &          0.50 \\
+		0.387983 &         0 &   2 &   2 &   0.500000 &          0.50 \\
+		0.387983 &         0 &   2 &   3 &   0.400000 &          0.50 \\
+		1.000000 &         1 &   3 &   3 &   0.500000 &          0.75 \\
+		0.225986 &         0 &   3 &   4 &   0.428571 &          0.75 \\
+		0.225986 &         0 &   3 &   5 &   0.375000 &          0.75 \\
+		1.000000 &         1 &   4 &   5 &   0.444444 &          1.00 \\
+		\bottomrule
+	\end{tabular}
 	\caption{Cálculo de la precisión y sensibilidad para las predicciones}
-	\label{fig:apprecisionrecalltable}
-\end{figure}
+	\label{tab:apprecisionrecalltable}
+\end{table}
 
 Una vez se tienen calculados los valores de \textit{precisión} y de \textit{sensibilidad} se calcula la curva \textit{precisión-sensibilidad} como se puede ver en la figura \ref{fig:apprecisionrecallcurve}. Para realizar el cálculo del área debajo de la curva se realiza un suavizado de la misma. Este suavizado consiste en establecer como valor de \textit{precisión} para un determinado valor de \textit{sensibilidad}, el valor de \textit{precisión} más alto que se encuentre a su derecha. Por ejemplo, para la \textit{sensibilidad} 0.6 se establece como valor de \textit{precisión} el valor más alto a su derecha, que en este caso es 0.5. En color naranja se puede ver la curva suavizada.
 
