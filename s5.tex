@@ -4,7 +4,14 @@
 
 % (Esto sería parte teórica)
 
-\textbf{!!! TODO}
+{\color{red} \textbf{!!! TODO}}
+
+\begin{itemize}
+	\item mencionar transfer learning
+	\item redes convolucionales
+\end{itemize}
+
+Para el entrenamiento se ha utilizado la técnica \textit{hold-out}, que consiste en dividir el conjunto de datos en dos subconjuntos: uno que será utilizado para la fase de entrenamiento y el otro que será utilizado para evaluar el modelo entrenado. Dada la escasez de imágenes no se ha utilizado un conjunto de validación durante el entrenamiento.
 
 \subsection{Explicar los métodos de evaluación que se van a utilizar en el proyecto}
 
@@ -12,7 +19,7 @@ En los problemas de detección de objetos en imágenes se tienen por un lado una
 
 La métrica que se ha utilizado para evaluar el modelo obtenido es la \textit{AP} (Average Precision), que es la métrica que se utiliza para evaluar modelos de detección de objetos.
 
-Para explicar en qué consiste la métrica \textit{AP} hay que explicar los siguientes conceptos, en los cuales se basa: IoU (intersección sobre la unión), precisión (precision) y sensibilidad (recall).
+Antes de explicar en qué consiste la métrica \textit{AP} hay que explicar una serie de conceptos en los cuales está basada: IoU (intersección sobre la unión), precisión (precision) y sensibilidad (recall).
 
 El concepto de \textit{IoU} mide cuánto se solapan dos regiones: la predicha y la que debería ser detectada. Se calcula dividiendo la región obtenida mediante la intersección de la región predicha y la región a detectar entre la región obtenida mediante la unión de ambas regiones.
 
