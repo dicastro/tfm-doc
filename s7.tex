@@ -1,4 +1,5 @@
 \section{Resultados}
+\label{sec:resultados}
 
 \subsection{Resultados del proyecto}
 
@@ -8,7 +9,7 @@ A continuación se van a mostrar algunos ejemplos de las predicciones obtenidas 
 	\centering
 	\begin{subfigure}[h]{0.45\linewidth}
 		\includegraphics[width=\linewidth]{images/results_a_gt.jpg}
-		\caption{Socavones a detectar}
+		\caption{Baches a detectar}
 	\end{subfigure}
 	\begin{subfigure}[h]{0.45\linewidth}
 		\includegraphics[width=\linewidth]{images/results_a_yolo_v3_256.jpg}
@@ -22,13 +23,13 @@ A continuación se van a mostrar algunos ejemplos de las predicciones obtenidas 
 		\includegraphics[width=\linewidth]{images/results_a_yolo_v3_640.jpg}
 		\caption{YOLO v3 tamaño 640x640}
 	\end{subfigure}
-	\caption{Ejemplo de predicción con modelos YOLO v3 de distintos tamaños. Arriba a la izquierda, la imagen con los socavones a detectar en azul y en amarillo los socavones que fueron descartados por el filtro 100x40. En el resto de las imágenes se pueden ver las predicciones realizadas en rojo.}
+	\caption{Ejemplo de predicción con modelos YOLO v3 de distintos tamaños. Arriba a la izquierda, la imagen con los baches a detectar en azul y en amarillo los baches que fueron descartados por el filtro 100x40. En el resto de las imágenes se pueden ver las predicciones realizadas en rojo.}
 	\label{fig:resultsav3}
 \end{figure}
 
-En la figura \ref{fig:resultsav3} se muestran las predicciones realizadas por los modelos \textit{YOLO v3}. Se trata de una imagen en la que originalmente se han etiquetado 2 socavones, uno de los cuales se ha descartado por ser demasiado pequeño. También se puede observar que existe un defecto en el etiquetado, ya que entre los dos socavones etiquetados existe un tercer socavón sin etiquetar. Aún habiendo filtrado los socavones pequeños se puede comprobar que el modelo es capaz de detectarlos (en los modelos de tamaño 416x416 y 640x640). También se puede observar que el modelo de tamaño 640x640 es capaz de detectar el socavón sin etiquetar.
+En la figura \ref{fig:resultsav3} se muestran las predicciones realizadas por los modelos \textit{YOLO v3}. Se trata de una imagen en la que originalmente se han etiquetado 2 baches, uno de los cuales se ha descartado por ser demasiado pequeño. Se puede observar que existe un defecto en el etiquetado, ya que entre los dos baches etiquetados existe un tercer bache sin etiquetar. Aún habiendo filtrado los baches pequeños se puede comprobar que el modelo es capaz de detectarlos (en los modelos de tamaño 416x416 y 640x640). También se puede observar que el modelo de tamaño 640x640 es capaz de detectar el bache sin etiquetar.
 
-En la figura \ref{fig:resultsav3tiny} se muestran las predicciones realizadas por los modelos \textit{YOLO v3 tiny} para la misma imagen. Únicamente el modelo de tamaño 416x416 es capaz de detectar el socavón, aunque lo hace de manera poco precisa ya que la región detectada es demasiado grande y abarca también al socavón sin etiquetar.
+En la figura \ref{fig:resultsav3tiny} se muestran las predicciones realizadas por los modelos \textit{YOLO v3 tiny} para la misma imagen. Únicamente el modelo de tamaño 416x416 es capaz de detectar el bache, aunque lo hace de manera poco precisa ya que la región detectada es demasiado grande y abarca también al bache sin etiquetar.
 
 \begin{figure}[H]
 	\centering
@@ -44,11 +45,13 @@ En la figura \ref{fig:resultsav3tiny} se muestran las predicciones realizadas po
 	\label{fig:resultsav3tiny}
 \end{figure}
 
+En la figura \ref{fig:resultsbv3} se muestran más predicciones realizadas por los modelos \textit{YOLO v3}. En esta ocasión se trata de una imagen en la que hay múltiples baches, de los cuales únicamente se han mantenido 2 y el resto se han descartado por tener un tamaño demasiado pequeño. En esta ocasión los 3 modelos detectan baches de forma correcta. El único modelo que detecta los baches esperados es el de tamaño 640x640. Además de detectar los baches detectados, es capaz de detectar uno de los baches que fue descartado por tamaño. Los otros dos modelos de tamaño inferior únicamente detectan uno de los baches esperados, aunque son capaces de detectar también algunos de los baches descartados.
+
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[h]{0.45\linewidth}
 		\includegraphics[width=\linewidth]{images/results_b_gt.jpg}
-		\caption{Socavones a detectar}
+		\caption{Baches a detectar}
 	\end{subfigure}
 	\begin{subfigure}[h]{0.45\linewidth}
 		\includegraphics[width=\linewidth]{images/results_b_yolo_v3_256.jpg}
@@ -62,9 +65,11 @@ En la figura \ref{fig:resultsav3tiny} se muestran las predicciones realizadas po
 		\includegraphics[width=\linewidth]{images/results_b_yolo_v3_640.jpg}
 		\caption{YOLO v3 tamaño 640x640}
 	\end{subfigure}
-	\caption{Ejemplo de predicción con modelos YOLO v3 de distintos tamaños. Arriba a la izquierda, la imagen con los socavones a detectar en azul y en amarillo los socavones que fueron descartados por el filtro 100x40. En el resto de las imágenes se pueden ver las predicciones realizadas en rojo.}
+	\caption{Ejemplo de predicción con modelos YOLO v3 de distintos tamaños. Arriba a la izquierda, la imagen con los baches a detectar en azul y en amarillo los baches que fueron descartados por el filtro 100x40. En el resto de las imágenes se pueden ver las predicciones realizadas en rojo.}
 	\label{fig:resultsbv3}
 \end{figure}
+
+En la figura \ref{fig:resultsbv3tiny} se muestran las predicciones realizadas por los modelos \textit{YOLO v3 tiny} para el segundo ejemplo. En esta ocasión ambos modelos son capaces de detectar baches de forma correcta. Además el modelo de tamaño 416x416 es capaz de identificar los dos baches esperados.
 
 \begin{figure}[H]
 	\centering
@@ -79,5 +84,3 @@ En la figura \ref{fig:resultsav3tiny} se muestran las predicciones realizadas po
 	\caption{Misma predicción que en la figura \ref{fig:resultsbv3}, pero en esta ocasión con modelos YOLO v3 tiny.}
 	\label{fig:resultsbv3tiny}
 \end{figure}
-
-{\color{red} \textbf{!!! TODO}}
