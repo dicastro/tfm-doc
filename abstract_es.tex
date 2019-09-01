@@ -1,21 +1,7 @@
 \begin{abstract}
-El estado del asfalto en carreteras tanto de ámbito nacional como de ámbito urbano es de alta importancia en relación a la seguridad vial. En la actualidad, no existe un sistema de detección automática de socavones en el asfalto. Tan sólo se tiene conocimineto de los mismos cuando han sido los causantes de un accidente vial o de una queja ciudadana (detección pasiva).
+El estado del asfalto en carreteras tanto de ámbito nacional como de ámbito urbano es de alta importancia en relación a la seguridad vial. En la actualidad, gracias a los avances tecnológicos, se están desarrollando sistemas de detección automática de baches en el asfalto, permitiendo una detección precoz de estas irregularidades en el asfalto.
 
-Este proyecto pretende desarrollar un sistema de detección automática y activa de socavones a partir de imágenes, que permita a las autoridades pertinentes conocer el número y ubicación de los mismos. Los principales objetivos son:
+Este proyecto pretende contribuir en este ámbito desarrollando un sistema de detección automática de baches a partir de imágenes. Partiendo de un conjunto de imágenes etiquetadas con baches, se ha entrenado una red neuronal YOLO v3 y otra YOLO v3 Tiny. El entrenamiento se ha realizado con distintos tamaños de red y con distintos subconjuntos de imágenes, dando lugar a quince modelos. Tras un estudio comparativo de las precisiones de los modelos, aquellos con mejores resultados han sido exportados y transformados para ser ejecutables en un dispositivo móvil. Finalmente se ha desarrollado una aplicación móvil Android que carga los modelos anteriormente exportados y los ejecuta con imágenes obtenidas de la cámara del dispositivo.
 
-\begin{itemize}
-	\item Detección temprana y activa de socavones a partir de imágenes
-	\item Creación de una base de datos con la relación de socavones detectados (número y ubicación)
-\end{itemize}
-
-Los principales beneficios son:
-
-\begin{itemize}
-	\item Optimización de recursos necesarios para la reparación de socavones
-	\item Aumentar la seguridad vial de las carreteras y evitar accidentes
-	\item Aumentar la satisfacción de la ciudadanía en relación al estado de las carreteras de su municipio
-\end{itemize}
-
-{\color{red} \textbf{!!! TODO}}
-
+Todo el preprocesamiento de las imágenes, entrenamiento de las redes neuronales, evaluación, exportación y transformación de los modelos se ha realizado en la nube en la plataforma de Google Colab.
 \end{abstract}
