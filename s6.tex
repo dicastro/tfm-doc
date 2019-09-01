@@ -1,4 +1,5 @@
 \section{Implementación y evaluación de las técnicas}
+\label{sec:implementacion_y_evaluacion_de_las_tecnicas}
 
 % (Aquí no te pongo límite de páginas. Explícalo como quieras ya que es la parte en la que tienes que explicar el trabajo técnico que has realizado.)
 
@@ -15,9 +16,9 @@ Se han entrenado dos versiones de YOLO: la versión 3 y la versión 3 tiny. Inic
 
 Para cada una de estas versiones se han entrenado varios modelos con distintos tamaños de red, por dos motivos principalmente: por una cuestión de rendimiento a la hora de ejecutar el modelo en un dispositivo móvil y por analizar cómo varía la precisión del modelo cambiando el tamaño de la red.
 
-Además se han utilizado distintos conjuntos de entrenamiento para entrenar todas las variantes del modelo. El primero de los conjuntos de entrenamiento se corresponde con el conjunto íntegro original (denominado \textit{completo}). Los resultados obtenidos con este conjunto de entrenamiento obtuvieron unos valores bajos para la métrica \textit{AP}, y tras analizar los motivos, se observó que había una gran cantidad de socavones demasiado pequeños que podían ser los causantes malos resultados. Por este motivo, se han utilizado dos conjuntos de entrenamiento adicionales aplicando filtros sobre los socavones. En el primero de estos conjuntos de entrenamiento adicionales se han filtrado los socavones con tamaño superior a 75x30 píxeles (denominado \textit{filtro 75x30}) y en el segundo se han filtrado los socavones con tamaño superior a 100x40 píxeles (denominado \textit{filtro 100x40}). Para cada uno de estos conjuntos de entrenamiento adicionales se ha creado también su correspondiente conjunto de evaluación aplicando el mismo filtro.
+Además se han utilizado distintos conjuntos de entrenamiento para entrenar todas las variantes del modelo. El primero de los conjuntos de entrenamiento se corresponde con el conjunto íntegro original (denominado \textit{completo}). Los resultados obtenidos con este conjunto de entrenamiento obtuvieron unos valores bajos para la métrica \textit{AP}, y tras analizar los motivos, se observó que había una gran cantidad de baches demasiado pequeños que podían ser los causantes malos resultados. Por este motivo, se han utilizado dos conjuntos de entrenamiento adicionales aplicando filtros sobre los baches. En el primero de estos conjuntos de entrenamiento adicionales se han filtrado los baches con tamaño superior a 75x30 píxeles (denominado \textit{filtro 75x30}) y en el segundo se han filtrado los baches con tamaño superior a 100x40 píxeles (denominado \textit{filtro 100x40}). Para cada uno de estos conjuntos de entrenamiento adicionales se ha creado también su correspondiente conjunto de evaluación aplicando el mismo filtro.
 
-En la tabla \ref{tab:evaluationoriginal} se pueden observar los resultados obtenidos para la métrica \textit{AP} para todos los modelos entrenados.
+Con todos los modelos resultantes obtenidos se ha realizado una doble evaluación. Por un lado se han evaluado con los conjuntos de evaluación correspondientes para cada uno de los conjuntos de entrenamiento (resultados en la tabla \ref{tab:evaluationoriginal}). Por otro lado se han evaluado con un conjunto de imágenes generado (resultados en la tabla \ref{tab:evaluationcustom}). Este conjunto de evaluación (denominado \textit{propio}) se compone de unas 30 imágenes de 4032x3024 píxeles, con unos 60 baches en total, obtenido desde la acera (a diferencia del original que fue obtenido desde el coche) y compuesto por fotos realizadas en España (a diferencia del original que fueron realizadas en Sudáfrica).
 
 \begin{table}[H]
 	\centering
@@ -46,31 +47,29 @@ En la tabla \ref{tab:evaluationoriginal} se pueden observar los resultados obten
 	\label{tab:evaluationoriginal}
 \end{table}
 
-% Con todos los modelo resultantes obtenidos se ha realizado una doble evaluación. Por un lado se han evaluado con los conjuntos de test correspondientes para cada uno de los conjuntos de entrenamiento (resultados en la tabla \ref{tab:evaluationoriginal}). Y por otro lado se han evaluado con un conjunto de imágenes generado para este proyecto (resultados en la tabla \ref{tab:evaluationcustom}). Este conjunto de evaluación (denominado \textit{propio}) se compone de unas 30 imágenes de 4032x3024 píxeles, con unos 60 socavones en total, obtenido desde la acera (a diferencia del original que fue obtenido desde el coche) y compuesto por fotos realizadas en España (a diferencia del original que fueron realizadas en Sudáfrica).
-
-%\begin{table}[H]
-%	\centering
-%	\begin{tabular}{lrlrr}
-%		\toprule
-%		Versión YOLO &  Tamaño &    Juego datos &  Épocas &  Mejor AP \\
-%		\midrule
-%		V3      &     256 &       completo &      43 &    0.0289 \\
-%		V3      &     256 &  filtro 100x40 &      93 &    0.1018 \\
-%		V3      &     256 &   filtro 75x30 &      88 &    0.0179 \\
-%		V3      &     416 &       completo &      18 &    0.0354 \\
-%		V3      &     416 &  filtro 100x40 &      93 &    0.0089 \\
-%		V3      &     416 &   filtro 75x30 &      93 &    0.0294 \\
-%		V3      &     640 &       completo &      13 &    0.0017 \\
-%		V3      &     640 &  filtro 100x40 &      63 &    0.0342 \\
-%		V3      &     640 &   filtro 75x30 &      53 &    0.0961 \\
-%		V3 Tiny &     256 &       completo &     144 &    0.0086 \\
-%		V3 Tiny &     256 &  filtro 100x40 &     136 &    0.0232 \\
-%		V3 Tiny &     256 &   filtro 75x30 &     153 &    0.0371 \\
-%		V3 Tiny &     416 &       completo &     153 &    0.0000 \\
-%		V3 Tiny &     416 &  filtro 100x40 &     153 &    0.0000 \\
-%		V3 Tiny &     416 &   filtro 75x30 &     146 &    0.0006 \\
-%		\bottomrule
-%	\end{tabular}
-%	\caption{Resultados obtenidos con el conjunto de evaluación propio}
-%	\label{tab:evaluationcustom}
-%\end{table}
+\begin{table}[H]
+	\centering
+	\begin{tabular}{lrlrr}
+		\toprule
+		Versión YOLO &  Tamaño &    Juego datos &  Épocas &  Mejor AP \\
+		\midrule
+		V3      &     256 &       propio completo &      43 &    0.0289 \\
+		V3      &     256 &  propio filtro 100x40 &      93 &    0.1018 \\
+		V3      &     256 &   propio filtro 75x30 &      88 &    0.0179 \\
+		V3      &     416 &       propio completo &      18 &    0.0354 \\
+		V3      &     416 &  propio filtro 100x40 &      93 &    0.0089 \\
+		V3      &     416 &   propio filtro 75x30 &      93 &    0.0294 \\
+		V3      &     640 &       propio completo &      13 &    0.0017 \\
+		V3      &     640 &  propio filtro 100x40 &      63 &    0.0342 \\
+		V3      &     640 &   propio filtro 75x30 &      53 &    0.0961 \\
+		V3 Tiny &     256 &       propio completo &     144 &    0.0086 \\
+		V3 Tiny &     256 &  propio filtro 100x40 &     136 &    0.0232 \\
+		V3 Tiny &     256 &   propio filtro 75x30 &     153 &    0.0371 \\
+		V3 Tiny &     416 &       propio completo &     153 &    0.0000 \\
+		V3 Tiny &     416 &  propio filtro 100x40 &     153 &    0.0000 \\
+		V3 Tiny &     416 &   propio filtro 75x30 &     146 &    0.0006 \\
+		\bottomrule
+	\end{tabular}
+	\caption{Resultados obtenidos con el conjunto de evaluación propio}
+	\label{tab:evaluationcustom}
+\end{table}

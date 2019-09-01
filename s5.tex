@@ -1,4 +1,5 @@
 \section{Técnicas de Deep Learning y métodos de evaluación}
+\label{sec:tecnicas_de_deep_learning_y_metodos_de_evaluacion}
 
 \subsection{Explicar las técnicas de DL que se van a utilizar en el proyecto}
 
@@ -9,13 +10,12 @@
 \begin{itemize}
 	\item mencionar transfer learning
 	\item redes convolucionales
+	\item non maximal suppression
 \end{itemize}
 
 Para el entrenamiento se ha utilizado la técnica \textit{hold-out}, que consiste en dividir el conjunto de datos en dos subconjuntos: uno que será utilizado para la fase de entrenamiento y el otro que será utilizado para evaluar el modelo entrenado. Dada la escasez de imágenes no se ha utilizado un conjunto de validación durante el entrenamiento.
 
 \subsection{Explicar los métodos de evaluación que se van a utilizar en el proyecto}
-
-{\color{red} En los problemas de detección de objetos en imágenes se tienen por un lado una serie de regiones definidas en cada una de las imágenes que se corresponden con los objetos que se tienen que detectar. Y por otro lado se tiene un listado de regiones con los las predicciones de objetos que se han realizado.}
 
 La métrica que se ha utilizado para evaluar el modelo obtenido es la \textit{AP} (Average Precision), que es la métrica que se utiliza para evaluar modelos de detección de objetos.
 
@@ -23,7 +23,6 @@ Antes de explicar en qué consiste la métrica \textit{AP} hay que explicar una 
 
 El concepto de \textit{IoU} mide cuánto se solapan dos regiones: la predicha y la que debería ser detectada. Se calcula dividiendo la región obtenida mediante la intersección de la región predicha y la región a detectar entre la región obtenida mediante la unión de ambas regiones.
 
-%2*\includegraphics{image1} + 3*\includegraphics{image2} = \includegraphics{image3}
 \begin{equation}
 	AP = \frac{interseci\acute{o}n}{uni\acute{o}n} = \frac{\includegraphics[width=0.2\linewidth]{images/ap_intersection.png}}{\includegraphics[width=0.2\linewidth]{images/ap_union.png}}
 	\nonumber
@@ -47,7 +46,7 @@ Tanto en el cálculo de la \textit{precisión} como en el cálculo de la \textit
 
 La métrica \textit{AP} se calcula como el área debajo de la curva \textit{precisión-sensibilidad} (precision-recall). En el eje de las abscisas se representa la \textit{sensibilidad} (recall) y en el eje de las ordenadas se representa la \textit{precisión} (precision).
 
-A continuación se va a mostrar un ejemplo práctico de cómo se calcula la \textit{AP}. Para este ejemplo se dispone de una serie de imágenes con un total de 4 socavones a detectar. En la tabla \ref{tab:apprecisionrecalltable} se puede ver el cálculo de la \textit{precisión} y de la \textit{sensibilidad} para las predicciones obtenidas. La columna \textit{Positivo} indica si la predicción es positiva, es decir, si el valor de \textit{IoU} supera el umbral definido, que en este caso es 0.5. Las columnas \textit{TP} y \textit{FP} muestran el acumulado de sus respectivos valores.
+A continuación se va a mostrar un ejemplo práctico de cómo se calcula la \textit{AP}. Para este ejemplo se dispone de una serie de imágenes con un total de 4 baches a detectar. En la tabla \ref{tab:apprecisionrecalltable} se puede ver el cálculo de la \textit{precisión} y de la \textit{sensibilidad} para las predicciones obtenidas. La columna \textit{Positivo} indica si la predicción es positiva, es decir, si el valor de \textit{IoU} supera el umbral definido, que en este caso es 0.5. Las columnas \textit{TP} y \textit{FP} muestran el acumulado de sus respectivos valores.
 
 \begin{table}[H]
 	\centering
