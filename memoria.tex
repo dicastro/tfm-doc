@@ -4,7 +4,14 @@
 \usepackage[backend=biber]{biblatex}
 \addbibresource{references.bib}
 
-% to insert framets of code
+% multilanguage
+\usepackage[english,spanish]{babel} 
+
+\newenvironment{poliabstract}[1]
+	{\renewcommand{\abstractname}{#1}\begin{abstract}}
+	{\end{abstract}}
+
+% to insert fragments of code
 \usepackage{listings}
 
 % to make links clickable
@@ -19,6 +26,7 @@
 
 % paragraph spacing
 \usepackage{parskip}
+\usepackage{setspace}
 
 % avoid numbering in equation
 \usepackage{amsmath}
@@ -29,24 +37,31 @@
 % beautiful tables
 \usepackage{booktabs}
 
-%opening
-\title{Sistema de detección automática de socavones en el asfalto a partir de imágenes}
-\author{Diego Castro Viadero}
-\date{Septiembre 2019}
-
 \renewcommand*\contentsname{Contenido}
 \renewcommand{\figurename}{Figura}
 \renewcommand{\tablename}{Tabla}
 
 \begin{document}
 
-\maketitle
+\begin{titlepage}
+	\centering
+	\includegraphics[width=0.5\textwidth]{images/logo_utad.jpg}\par\vspace{1cm}
+	{\large\bfseries Sistema de detección automática de baches en el asfalto a partir de imágenes\par}
+	\vspace{1.5cm}
+	{\large \itshape Diego Castro Viadero\par}
+	Septiembre 2019\par
+	\vspace{1.5cm}
+	{\small Tutor: Ricardo Moya García}
+\end{titlepage}
 
+\selectlanguage{spanish}
 \include{abstract_es}
 
+\selectlanguage{english}
 \include{abstract_en}
 
 \newpage
+\selectlanguage{spanish}
 \tableofcontents{}
 
 \newpage
