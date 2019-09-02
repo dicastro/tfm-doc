@@ -37,9 +37,17 @@
 % beautiful tables
 \usepackage{booktabs}
 
-\renewcommand*\contentsname{Contenido}
-\renewcommand{\figurename}{Figura}
-\renewcommand{\tablename}{Tabla}
+% caption font
+\usepackage{caption}
+\captionsetup[figure]{font=small, labelfont=bf}
+\captionsetup[table]{font=small, labelfont=bf}
+
+% language redefinitions
+\addto\captionsspanish{%
+	\renewcommand*\contentsname{Contenido}
+	\renewcommand{\figurename}{Figura}
+	\renewcommand{\tablename}{Tabla}
+}
 
 \begin{document}
 
