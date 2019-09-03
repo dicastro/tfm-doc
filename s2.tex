@@ -3,14 +3,9 @@
 
 % En el punto de motivación y objetivos debes de dejar muy claro que es lo que quieres hacer (un detector de baches) y en este tema 2 debes de explicar como se solucionan este tipo de problemas (CNN) y las redes y frameworks existentes para poder realizar tu trabajo. Como esto ya es una cosa que has hecho (me lo mandaste en un mail muy bien explicado) debes de contar los pros y contras y justificar el porque has seleccionado la red seleccionada
 
-El problema que se pretende resolver podría ser afrontado de dos posibles maneras:
+El problema que se pretende resolver podría ser afrontado bien como un problema de clasificación de imágenes o bien como un problema de detección de objetos.
 
-\begin{itemize}
-	\item Como un problema de clasificación de imágenes
-	\item Como un problema de detección de objetos
-\end{itemize}
-
-El primero de los enfoques es más sencillo y está más estudiado. Dada una imagen, se determina una clase a la que pertenece la imagen. En los problemas de clasificación cada una de las imágenes se centran en un único objeto. Este tipo de problemas de clasificación se resuelven comúnmente con redes neuronales convolucionales. Existen numerosas arquitecturas de redes neuronales convolucionales ya definidas y estudiadas para resolver este tipo de problemas, como por ejemplo: VGG-16, LeNet, ResNet, GoogLeNet/Inception, etc.
+El primero de los enfoques es más sencillo y está más estudiado. Dada una imagen, se determina una clase a la que pertenece la imagen. En los problemas de clasificación cada una de las imágenes se centran en un único objeto. Este tipo de problemas se resuelven comúnmente con redes neuronales convolucionales. Existen numerosas arquitecturas de redes neuronales convolucionales ya definidas y estudiadas para resolver este tipo de problemas, como por ejemplo: VGG-16, LeNet, ResNet, GoogLeNet/Inception, etc.
 
 El segundo de los enfoques es más complicado, y presenta varios retos. El primero de ellos es que las imágenes no se centran en un único objeto, sino que puede haber múltiples objetos a detectar y además tratarse de objetos de distintos tipos. El segundo de los restos es el tamaño de los objetos a identificar, que puede ser variable. Y el tercero de los retos es que se están resolviendo dos problemas al mismo tiempo: localizar objetos en una imagen y clasificar los objetos localizados.
 
@@ -18,11 +13,35 @@ Para resolver los problemas de detección de objetos existen dos aproximaciones.
 
 El uso del deep learning para la detección de objetos ha supuesto una revolución y ha cambiado las reglas del juego. Esta aproximación para la resolución de este tipo de problemas es relativamente reciente y ha estado en constante evolución.
 
+En estos últimos años han habido múltiples aproximaciones para afrontar el problema de detección de objetos. A continuación se va a hacer un repaso de las más relevantes \cite{s2_stateofart1} \cite{s2_stateofart2} \cite{s2_stateofart5} \cite{s2_stateofart6} \cite{s2_stateofart7}.
+
+\subsection*{R-CNN}
+
+Una de las primeras aproximaciones que hicieron uso de técnicas de deep learning para la resolución de problemas de detección de objetos es \textit{R-CNN} (Region-based Convolutional Neural Networks) \cite{s2_stateofart4}. El funcionamiento de R-CNN consiste en 3 pasos:
+
+\begin{enumerate}
+	\item Se escanea la imagen en busca de posibles objetos. Mediante un algoritmo de proposición de regiones, el más habitual es la \textit{búsqueda selectiva} (selective search) \cite{s2_stateofart3}, se obtienen una serie de regiones (aproximadamente unas 2000 regiones) candidatas de contener un objeto (RoI, Region of Interest)
+	\item Se ejecuta una red neuronal convolucional para extraer las características (features) de cada una de las regiones de interés
+	\item Las características obtenidas de la red neuronal convolucional alimentan:
+	\begin{enumerate}
+		\item un SVM para clasificar el objeto
+		\item un regresor lineal para ajustar la región candidata al objeto
+	\end{enumerate}
+\end{enumerate}
+
+Aunque con esta aproximación se obtienen buenos resultados, tiene muchos inconvenientes, el principal es la dificultad para entrenar. Por un lado hay que obtener las regiones de interés del conjunto de entrenamiento, después hay que ejecutar la red neuronal convolucional sobre cada una de las regiones candidatas para obtener las características. Finalmente hay que entrenar el clasificador SVM.
+
+\subsection*{Fast R-CNN}
+
+La aproximación \textit{R-CNN} no tardó en evolucionar hacia una aproximación más pura de deep learning. El mismo autor de \textit{R-CNN} fue el autor de su evolución \textit{Fast R-CNN} \cite{s2_stateofart8}.
+
+En este caso se ejecuta la red neuronal convolucional sobe la imagen completa para obtener las características. Una vez obtenidas las características se aplica la \textit{búsqueda selectiva} para obtener las regiones de interés. A continuación se reduce el número de regiones de interés con una capa \textit{RoI Pooling} y una red neuronal totalmente conectada. Por último para realizar la clasificación se utiliza un clasificador \textit{softmax}, en lugar de SVM. Para ajustar las regiones se sigue utilizando una regresión lineal.
+
+Esta aproximación presenta múltiples ventajas con respecto a su predecesora. Por un lado, la red neuronal convolucional se ejecuta una única vez, en lugar de una vez por cada región de interés (aproximadamente unas 2000 regiones de interés). Por otro lado, en vez de utilizar múltiples SVM para realizar la clasificación, se utiliza un único clasificador \textit{softmax}. Con todo esto se mejora mucho el rendimiento y se facilita el entrenamiento. Sin embargo, sigue teniendo una pega, que es el uso de la \textit{búsqueda selectiva} para obtener las regiones de interés.
+
 {\color{red} \textbf{!!! TODO}}
 
 \begin{itemize}
-	\item R-CNN
-	\item Fast R-CNN
 	\item Faster R-CNN
 	\item SDD
 	\item YOLO (YOLO, YOLOv2, YOLOv3)
