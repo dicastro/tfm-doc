@@ -4,9 +4,24 @@
 \subsection{Evaluación del proyecto}
 
 % explicar lo de yolo v3 tiny después de yolo v3
+
+Debido a las restricciones de uso del hardware se ha realizado el entrenamiento en fases, comenzando en cada fase con el modelo resultante de la fase anterior. Al finalizar cada fase se ha realizado una evaluación del modelo para ver si mejoraba con respecto a la anterior.
+
+Se han entrenado pocas épocas, por la cantidad de tiempo que requería el entrenamiento y por la limitación de tiempo de uso del hardware. Parece que si lanzas procesos que hacen un uso intensivo del hardware, lo detectan, y a la hora de solicitar una máquina te rechazan la petición. Por lo menos, este es el comportamiento que he observado en la fase final del proyecto, en la que me costaba conseguir una máquina con GPU disponible para continuar con el entrenamiento.
+
+Los resultados que se obtienen con TFLite desde python y desde java no son exactamente iguales, existen pequeñas diferencias a partir del 4-6 decimal, aunque no alteran demasiado las predicciones.
+
+El rendimiento que se obtiene en el teléfono móvil me ha resultado inferior al que me esperaba. Al final con un móvil de gama media (Nokia 7 plus) se alcanzan los 5-7 FPS. También se han realizado pruebas en un móvil de gama alta (OnePlus 7P) y los resultados han sido mejores, unos 12 FPS.
+
 {\color{red} \textbf{!!! TODO}}
 
 \subsection{Alternativas y posibles mejoras que podrían haberse aplicado al proyecto (trabajos futuros)}
+
+Mejorar las etiquetas de este dataset o utilizar otro dataset. Crear un dataset con carreteras de España ya que parece que los baches son diferentes, sobre todo cuando se trata de carreteras que han sido reasfaltadas y en las cuales los baches dejan al descubierto más asfalto.
+
+Darle otro enfoque a las fotos de tal forma que estén más centradas en el asfalto y que los baches sean más grandes con respecto al tamaño de la imagen. No hace falta detectar los baches lejos, puesto que el objetivo del proyecto sería crear un inventario.
+
+Modelo quantized para ver si se reduce el tiempo de inferencia en el dispositivo móvil
 
 {\color{red} \textbf{!!! TODO}}
 
