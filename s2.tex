@@ -17,10 +17,10 @@ En estos últimos años han habido múltiples aproximaciones para afrontar el pr
 
 \subsection*{R-CNN}
 
-Una de las primeras aproximaciones que hicieron uso de técnicas de deep learning para la resolución de problemas de detección de objetos es \textit{R-CNN} (Region-based Convolutional Neural Networks) \cite{s2_stateofart4}. El funcionamiento de R-CNN consiste en 3 pasos:
+Una de las primeras aproximaciones que hicieron uso de técnicas de deep learning para la resolución de problemas de detección de objetos es \textit{R-CNN} (Region-based Convolutional Neural Networks) \cite{s2_stateofart_rcnn}. El funcionamiento de R-CNN consiste en 3 pasos:
 
 \begin{enumerate}
-	\item Se escanea la imagen en busca de posibles objetos. Mediante un algoritmo de proposición de regiones, el más habitual es la \textit{búsqueda selectiva} (selective search) \cite{s2_stateofart3}, se obtienen una serie de regiones (aproximadamente unas 2000 regiones) candidatas de contener un objeto (RoI, Region of Interest)
+	\item Se escanea la imagen en busca de posibles objetos. Mediante un algoritmo de proposición de regiones, el más habitual es la \textit{búsqueda selectiva} (selective search) \cite{s2_stateofart_selectivesearch}, se obtienen una serie de regiones (aproximadamente unas 2000 regiones) candidatas de contener un objeto (RoI, Region of Interest)
 	\item Se ejecuta una red neuronal convolucional para extraer las características (features) de cada una de las regiones de interés
 	\item Las características obtenidas de la red neuronal convolucional alimentan:
 	\begin{enumerate}
@@ -33,17 +33,26 @@ Aunque con esta aproximación se obtienen buenos resultados, tiene muchos inconv
 
 \subsection*{Fast R-CNN}
 
-La aproximación \textit{R-CNN} no tardó en evolucionar hacia una aproximación más pura de deep learning. El mismo autor de \textit{R-CNN} fue el autor de su evolución \textit{Fast R-CNN} \cite{s2_stateofart8}.
+La aproximación \textit{R-CNN} no tardó en evolucionar hacia una aproximación más pura de deep learning. El mismo autor de \textit{R-CNN} fue el autor de su evolución \textit{Fast R-CNN} \cite{s2_stateofart_fastrcnn}.
 
 En este caso se ejecuta la red neuronal convolucional sobe la imagen completa para obtener las características. Una vez obtenidas las características se aplica la \textit{búsqueda selectiva} para obtener las regiones de interés. A continuación se reduce el número de regiones de interés con una capa \textit{RoI Pooling} y una red neuronal totalmente conectada. Por último para realizar la clasificación se utiliza un clasificador \textit{softmax}, en lugar de SVM. Para ajustar las regiones se sigue utilizando una regresión lineal.
 
 Esta aproximación presenta múltiples ventajas con respecto a su predecesora. Por un lado, la red neuronal convolucional se ejecuta una única vez, en lugar de una vez por cada región de interés (aproximadamente unas 2000 regiones de interés). Por otro lado, en vez de utilizar múltiples SVM para realizar la clasificación, se utiliza un único clasificador \textit{softmax}. Con todo esto se mejora mucho el rendimiento y se facilita el entrenamiento. Sin embargo, sigue teniendo una pega, que es el uso de la \textit{búsqueda selectiva} para obtener las regiones de interés.
 
-{\color{red} \textbf{!!! TODO}}
+\subsection*{Faster R-CNN}
 
-\begin{itemize}
-	\item Faster R-CNN
-	\item SDD
-	\item YOLO (YOLO, YOLOv2, YOLOv3)
-	\item Mask R-CNN
-\end{itemize}
+La aproximación \textit{Fast R-CNN} sufrió una tercera evolución para dar lugar a \textit{Faster R-CNN} \cite{s2_stateofart_fasterrcnn}. En esta tercera iteración se suprimió el uso de la \textit{búsqueda selectiva} y se introdujo en su lugar lo que se denominó \textit{red de proposición de regiones} (RPN, Region Proposal Network). De esta forma se consiguió mejorar bastante el rendimiento y tener un la aproximación que es entrenable de principio a fin.
+
+\subsection*{YOLO}
+
+\textit{YOLO} , que responde al acrónimo \textit{\textbf{Y}ou \textbf{O}nly \textbf{L}ook \textbf{O}nce}, predice con una única red neuronal convolucional, y de una vez, tanto las regiones como las clases de los objetos. Esta simplicidad le permite realizar predicciones en tiempo real.
+
+El sistema divide la imagen en una rejilla de dimensiones $SxS$ y en cada una de las celdas de la rejilla se obtienen $B$ predicciones de regiones candidatas de contener un objeto con un valor de confianza. Esta confianza refleja la probabilidad de contener un objeto y como de ajustada es la región candidata con respecto a la región a detectar. Esto último se hace en base al \textit{IoU} (Intersection over Union), de la región candidata con respecto a la verdadera.
+
+El diseño original está inspirado en \textit{GoogLeNet}. Está formado por 24 capas convolucionales y 2 capas totalmente conectadas. Con respecto a los resultados, está un poco por debajo de \textit{Faster R-CNN}, en lo que respecta a precisión, pero a cambio ofrece un alto rendimiento.
+
+Al igual que sucedió con \textit{R-CNN}, \textit{YOLO} ha estado en continua evolución. Actualmente la última versión desarrollada es la versión 3 \cite{s2_stateofart_yolov3}. En esta última iteración se han hecho pequeñas mejoras y se ha hecho la red más grande, en esta versión hay 53 capas convolucionales.
+
+\subsection*{Más ...}
+
+Existen otras muchas aproximaciones, como por ejemplo: \textit{SSD}, \textit{R-FCN}, \textit{Mask R-CNN}, etc., en las que no se va a entrar en detalle, ya que sería muy difícil abarcar todas.
