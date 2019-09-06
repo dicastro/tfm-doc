@@ -3,18 +3,102 @@
 
 \subsection{Explicar las técnicas de DL que se van a utilizar en el proyecto}
 
-% (Esto sería parte teórica)
+A continuación se explicarán las principales técnicas utilizadas para el desarrollo del proyecto, se comenzará comentando algunas técnicas más generales, no tan específicas del deep learning y se terminará con algunas técnicas específicas, propias del algoritmo de aprendizaje que nos atañe.
 
-{\color{red} \textbf{!!! TODO}}
+La primera de las técnicas es una de las técnicas \textit{generalistas}, propia de los algoritmos de aprendizaje en general. Se trata del \textit{hold-out}, que consiste en dividir el conjunto de datos en dos subconjuntos: uno que se utiliza para el entrenamiento y otro que se utiliza para evaluar el modelo obtenido tras el entrenamiento.
 
-\begin{itemize}
-	\item mencionar transfer learning
-	% https://towardsdatascience.com/transfer-learning-and-image-classification-using-keras-on-kaggle-kernels-c76d3b030649
-	\item redes convolucionales
-	\item non maximal suppression
-\end{itemize}
+Para el desarrollo del proyecto se ha implementado una \textit{red neuronal convolucional (CNN)} \cite{s5_cnn1} \cite{s5_cnn2} \cite{s5_cnn3}. Las \textit{CNNs} están compuestas por una secuencia de capas convolucionales, para la extracción de características, seguidas de unas capas perceptrón simples, para la clasificación final. Las capas convolucionales forman una jerarquía, de forma que las capas del principio son capaces de detectar formas básicas y cuanto más ``profunda'' es la capa, más complejas son las formas que son capaces de detectar. Por ejemplo: una capa inicial sería capaz de detectar líneas y círculos, mientras que una capa profunda sería capaz de detectar una cara.
 
-Para el entrenamiento se ha utilizado la técnica \textit{hold-out}, que consiste en dividir el conjunto de datos en dos subconjuntos: uno que será utilizado para la fase de entrenamiento y el otro que será utilizado para evaluar el modelo entrenado. Dada la escasez de imágenes no se ha utilizado un conjunto de validación durante el entrenamiento.
+Las capas convolucionales están compuestas por neuronas que realizan la operación de \textit{convolución}. Dichas neuronas reciben en la entrada una matriz bidimensional, que se corresponde con la imagen, si se trata de la primera capa de la red, o con la salida de la capa convolucional anterior. Además, cada una de estas neuronas tiene definido un \textit{kernel}, que es otra matriz bidimensional de dimensiones reducidas.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{images/convolutional_neuron_example.png}
+	\caption{Ejemplo de neurona convolucional con una entrada de 5x5 y un kernel de 3x3}
+	\label{fig:cnn_neuronex}
+\end{figure}
+
+La operación de \textit{convolución} consiste en hacer un barrido del \textit{kernel} por la matriz de entrada, de izquierda a derecha y de arriba a abajo. En cada una de las posiciones del barrido se aplica el producto escalar entre el kernel y la submatriz de la matriz de entrada sobre la que se encuentre. En la figura \ref{fig:cnn_convolutionoperationex} se puede ver gráficamente el proceso.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{images/convolutional_operation_example.png}
+	\caption{Representación gráfica de operación convolucional}
+	\label{fig:cnn_convolutionoperationex}
+\end{figure}
+
+Para realizar el producto escalar las matrices se \textit{aplanan}, de tal forma que la submatriz de entrada quedaría de la siguiente forma:
+
+\begin{equation}
+	\left[
+	\begin{array}{ccc}
+		0 & 1 & 1 \\
+		0 & 1 & 1 \\
+		0 & 1 & 1 \\
+	\end{array}
+	\right]
+	=>
+	\left[
+	\begin{array}{ccccccccc}
+		0 & 1 & 1 & 0 & 1 & 1 & 0 & 1 & 1 \\
+	\end{array}
+	\right]
+	\nonumber
+\end{equation}
+
+El kernel:
+
+\begin{equation}
+	\left[
+	\begin{array}{ccc}
+		0 & 1 & 0 \\
+		0 & 1 & 0 \\
+		0 & 1 & 0 \\
+	\end{array}
+	\right]
+	=>
+	\left[
+	\begin{array}{ccccccccc}
+		0 & 1 & 0 & 0 & 1 & 0 & 0 & 1 & 0 \\
+	\end{array}
+	\right]
+	\nonumber
+\end{equation}
+
+Y por lo tanto el producto escalar:
+
+\begin{equation}
+	\left[
+	\begin{array}{ccccccccc}
+		0 & 1 & 1 & 0 & 1 & 1 & 0 & 1 & 1 \\
+	\end{array}
+	\right]
+	\left[
+	\begin{array}{c}
+		0 \\
+		1 \\
+		0 \\
+		0 \\
+		1 \\
+		0 \\
+		0 \\
+		1 \\
+		0 \\
+	\end{array}
+	\right] = 3
+	\nonumber
+\end{equation}
+
+Cada una de las neuronas de las capas convolucionales no tiene un único kernel asociado, sino que tienen varios. Teniendo en cuenta esto y suponiendo que tenemos como entrada una imagen en blanco y negro de $28x28$ píxeles y que cada neurona tiene $32$ kernels de $3x3$, la primera capa convolucional estaría compuesta por $784$ neuronas, y se obtendrían como resultado $28 x 28 x 32 = 25.088$ matrices de salida, que se correspondería con el número de neuronas necesarias para la siguiente capa convolucional. Esto hace necesario introducir un mecanismo de reducción para que el número de neuronas necesarias no crezca tan desmesuradamente con cada capa. Este mecanismo se conoce como \textit{pooling} y existen distintos tipos de pooling. Uno de ellos es el \textit{MaxPooling}, y consiste en deslizar una ventana bidimensional sobre la matriz de entrada, de izquierda a derecha y de arriba a abajo. En cada una de las posiciones se tomará como valor resultante el máximo valor presente en la ventana. La capacidad de reducción del MaxPooling depende de dos factores: el tamaño de la ventana y el tamaño del salto que se da hacia la derecha y hacia abajo. En la figura \ref{fig:cnn_maxpooling} se muestra un ejemplo gráfico.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{images/maxpooling_example.png}
+	\caption{Representación gráfica de MaxPooling con una entrada de 4x4, una ventana de 2x2 y un salto de 2}
+	\label{fig:cnn_maxpooling}
+\end{figure}
+
+Otra de las técnicas que se han utilizado en el proyecto es la denominada \textit{transferencia del conocimiento (transfer learning)}. Entrenar un modelo de detección de objetos es un proceso muy costoso, ya que se necesita un gran volumen de imágenes y una gran capacidad de cómputo. El \textit{transfer learning} viene a paliar este problema ya que permite utilizar un modelo ya entrenado como punto de partida para entrenar otro. Como se ha comentado anteriormente, las primeras capas convolucionales son capaces de detectar formas básicas y a medida que se profundiza en las capas, estas detectan formas más específicas. Si ya tenemos entrenado un modelo (a) para detectar un determinado tipo de objetos y queremos entrenar otro (b) para detectar otro tipo de objetos, las primeras capas de ambos modelos van a detectar el mismo tipo de formas, y serán las capas más profundas las que se diferencien. Por lo tanto podríamos utilizar el modelo \textit{a} como punto de partida para el modelo \textit{b}, y este último podrá aprender más rápido ya que las primeras capas ya están entrenadas para detectar formas básicas.
 
 \subsection{Explicar los métodos de evaluación que se van a utilizar en el proyecto}
 
