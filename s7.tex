@@ -84,3 +84,163 @@ En la figura \ref{fig:resultsbv3tiny} se muestran las predicciones realizadas po
 	\caption{Misma predicción que en la figura \ref{fig:resultsbv3}, pero en esta ocasión con modelos YOLO v3 tiny.}
 	\label{fig:resultsbv3tiny}
 \end{figure}
+
+En la figura \ref{fig:resultscv3} se muestra otro ejemplo de predicciones realizadas por los modelos \textit{YOLO v3}. En esta ocasión también se trata de una imagen en la que hay múltiples baches, de los cuales se ha mantenido un único bache, el resto han sido descartados descartado por tener un tamaño demasiado pequeño. En esta ocasión uno de los modelos, el de tamaño 416x416, es incapaz de detectar ningún bache. El modelo más pequeño, detecta uno de los baches que ha sido descartado, y la predicción es mejor al original ya que la región predicha se ajusta más al bache. El modelo más grande ha sido capaz de detectar el bache original y además detecta otro de los baches que fue descartados.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[h]{0.45\linewidth}
+		\includegraphics[width=\linewidth]{images/results_c_gt.jpg}
+		\caption{Baches a detectar}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.45\linewidth}
+		\includegraphics[width=\linewidth]{images/results_c_yolo_v3_256.jpg}
+		\caption{YOLO v3 tamaño 256x256}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.45\linewidth}
+		\includegraphics[width=\linewidth]{images/results_c_yolo_v3_416.jpg}
+		\caption{YOLO v3 tamaño 416x416}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.45\linewidth}
+		\includegraphics[width=\linewidth]{images/results_c_yolo_v3_640.jpg}
+		\caption{YOLO v3 tamaño 640x640}
+	\end{subfigure}
+	\caption{Ejemplo de predicción con modelos YOLO v3 de distintos tamaños. Arriba a la izquierda, la imagen con los baches a detectar en azul y en amarillo los baches que fueron descartados por el filtro 100x40. En el resto de las imágenes se pueden ver las predicciones realizadas en rojo.}
+	\label{fig:resultscv3}
+\end{figure}
+
+En la figura \ref{fig:resultscv3tiny} se pueden ver las predicciones realizadas por los modelos \textit{YOLO v3 tiny} para el ejemplo anterior. Sólo uno de los modelos detecta uno de los baches.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[h]{0.45\linewidth}
+		\includegraphics[width=\linewidth]{images/results_c_yolo_v3_tiny_256.jpg}
+		\caption{YOLO v3 tiny tamaño 256x256}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.45\linewidth}
+		\includegraphics[width=\linewidth]{images/results_c_yolo_v3_tiny_416.jpg}
+		\caption{YOLO v3 tiny tamaño 416x416}
+	\end{subfigure}
+	\caption{Misma predicción que en la figura \ref{fig:resultscv3}, pero en esta ocasión con modelos YOLO v3 tiny.}
+	\label{fig:resultscv3tiny}
+\end{figure}
+
+En la figura \ref{fig:resultsdv3} se muestra un ejemplo más de predicciones realizadas por los modelos \textit{YOLO v3}. En esta ocasión también se trata de una imagen en la que hay múltiples baches, de los cuales se han mantenido dos. Todos los modelos han sido capaces de detectar los baches originales, aunque no de la misma forma. Uno de los baches originales se encuentra contiguo a otro descartado, es por esto que las regiones propuestas por los dos modelos más pequeños para este bache sean más grandes, abarcando ambos baches.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[h]{0.45\linewidth}
+		\includegraphics[width=\linewidth]{images/results_d_gt.jpg}
+		\caption{Baches a detectar}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.45\linewidth}
+		\includegraphics[width=\linewidth]{images/results_d_yolo_v3_256.jpg}
+		\caption{YOLO v3 tamaño 256x256}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.45\linewidth}
+		\includegraphics[width=\linewidth]{images/results_d_yolo_v3_416.jpg}
+		\caption{YOLO v3 tamaño 416x416}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.45\linewidth}
+		\includegraphics[width=\linewidth]{images/results_d_yolo_v3_640.jpg}
+		\caption{YOLO v3 tamaño 640x640}
+	\end{subfigure}
+	\caption{Ejemplo de predicción con modelos YOLO v3 de distintos tamaños. Arriba a la izquierda, la imagen con los baches a detectar en azul y en amarillo los baches que fueron descartados por el filtro 100x40. En el resto de las imágenes se pueden ver las predicciones realizadas en rojo.}
+	\label{fig:resultsdv3}
+\end{figure}
+
+En la figura \ref{fig:resultsdv3tiny} se pueden ver las predicciones realizadas por los modelos \textit{YOLO v3 tiny} para el ejemplo anterior. Ambos modelos detectan los baches, aunque se están haciendo predicciones extras que son erróneas.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[h]{0.45\linewidth}
+		\includegraphics[width=\linewidth]{images/results_d_yolo_v3_tiny_256.jpg}
+		\caption{YOLO v3 tiny tamaño 256x256}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.45\linewidth}
+		\includegraphics[width=\linewidth]{images/results_d_yolo_v3_tiny_416.jpg}
+		\caption{YOLO v3 tiny tamaño 416x416}
+	\end{subfigure}
+	\caption{Misma predicción que en la figura \ref{fig:resultsdv3}, pero en esta ocasión con modelos YOLO v3 tiny.}
+	\label{fig:resultsdv3tiny}
+\end{figure}
+
+En la figura \ref{fig:resultsev3} se muestra un ejemplo más de predicciones realizadas por los modelos \textit{YOLO v3}. En esta ocasión también se trata de una imagen en la que hay múltiples baches, de los cuales se mantiene uno. Este ejemplo es un poco diferente a los anteriores porque este no es un caso evidente para el ojo humano, aún así, todos los modelos han sido capaces de detectar el bache original.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[h]{0.45\linewidth}
+		\includegraphics[width=\linewidth]{images/results_e_gt.jpg}
+		\caption{Baches a detectar}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.45\linewidth}
+		\includegraphics[width=\linewidth]{images/results_e_yolo_v3_256.jpg}
+		\caption{YOLO v3 tamaño 256x256}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.45\linewidth}
+		\includegraphics[width=\linewidth]{images/results_e_yolo_v3_416.jpg}
+		\caption{YOLO v3 tamaño 416x416}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.45\linewidth}
+		\includegraphics[width=\linewidth]{images/results_e_yolo_v3_640.jpg}
+		\caption{YOLO v3 tamaño 640x640}
+	\end{subfigure}
+	\caption{Ejemplo de predicción con modelos YOLO v3 de distintos tamaños. Arriba a la izquierda, la imagen con los baches a detectar en azul y en amarillo los baches que fueron descartados por el filtro 100x40. En el resto de las imágenes se pueden ver las predicciones realizadas en rojo.}
+	\label{fig:resultsev3}
+\end{figure}
+
+En la figura \ref{fig:resultsev3tiny} se pueden ver las predicciones realizadas por los modelos \textit{YOLO v3 tiny} para el ejemplo anterior. Sólo uno de los modelos es capaz de hacer una predicción, y además errónea.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[h]{0.45\linewidth}
+		\includegraphics[width=\linewidth]{images/results_e_yolo_v3_tiny_256.jpg}
+		\caption{YOLO v3 tiny tamaño 256x256}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.45\linewidth}
+		\includegraphics[width=\linewidth]{images/results_e_yolo_v3_tiny_416.jpg}
+		\caption{YOLO v3 tiny tamaño 416x416}
+	\end{subfigure}
+	\caption{Misma predicción que en la figura \ref{fig:resultsev3}, pero en esta ocasión con modelos YOLO v3 tiny.}
+	\label{fig:resultsev3tiny}
+\end{figure}
+
+En la figura \ref{fig:resultsfv3} se muestra un último ejemplo de predicciones realizadas por los modelos \textit{YOLO v3}. En esta ocasión también se trata de una imagen en la que hay un único bache. En esta ocasión todos los modelos tienen un comportamiento errático. Además de detectar el bache, se han visto afectados por las hojas en el asfalto realizando predicciones erróneas.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[h]{0.45\linewidth}
+		\includegraphics[width=\linewidth]{images/results_f_gt.jpg}
+		\caption{Baches a detectar}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.45\linewidth}
+		\includegraphics[width=\linewidth]{images/results_f_yolo_v3_256.jpg}
+		\caption{YOLO v3 tamaño 256x256}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.45\linewidth}
+		\includegraphics[width=\linewidth]{images/results_f_yolo_v3_416.jpg}
+		\caption{YOLO v3 tamaño 416x416}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.45\linewidth}
+		\includegraphics[width=\linewidth]{images/results_f_yolo_v3_640.jpg}
+		\caption{YOLO v3 tamaño 640x640}
+	\end{subfigure}
+	\caption{Ejemplo de predicción con modelos YOLO v3 de distintos tamaños. Arriba a la izquierda, la imagen con los baches a detectar en azul y en amarillo los baches que fueron descartados por el filtro 100x40. En el resto de las imágenes se pueden ver las predicciones realizadas en rojo.}
+	\label{fig:resultsfv3}
+\end{figure}
+
+En la figura \ref{fig:resultsfv3tiny} se pueden ver las predicciones realizadas por los modelos \textit{YOLO v3 tiny} para el ejemplo anterior. Estos modelos se han visto afectados de la misma manera por las hojas en el asfalto.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[h]{0.45\linewidth}
+		\includegraphics[width=\linewidth]{images/results_f_yolo_v3_tiny_256.jpg}
+		\caption{YOLO v3 tiny tamaño 256x256}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.45\linewidth}
+		\includegraphics[width=\linewidth]{images/results_f_yolo_v3_tiny_416.jpg}
+		\caption{YOLO v3 tiny tamaño 416x416}
+	\end{subfigure}
+	\caption{Misma predicción que en la figura \ref{fig:resultsfv3}, pero en esta ocasión con modelos YOLO v3 tiny.}
+	\label{fig:resultsfv3tiny}
+\end{figure}
