@@ -3,7 +3,7 @@
 
 \subsection{Explicar las técnicas de DL que se van a utilizar en el proyecto}
 
-A continuación se explicarán las principales técnicas utilizadas para el desarrollo del proyecto, se comenzará comentando algunas técnicas más generales, no tan específicas del deep learning y se terminará con algunas técnicas específicas, propias del algoritmo de aprendizaje que nos atañe.
+A continuación se explicarán las principales técnicas utilizadas para el desarrollo del proyecto. Algunas de las técnicas mencionada no son específicas del deep learning.
 
 La primera de las técnicas es una de las técnicas \textit{generalistas}, propia de los algoritmos de aprendizaje en general. Se trata del \textit{hold-out}, que consiste en dividir el conjunto de datos en dos subconjuntos: uno que se utiliza para el entrenamiento y otro que se utiliza para evaluar el modelo obtenido tras el entrenamiento.
 
@@ -27,7 +27,7 @@ La operación de \textit{convolución} consiste en hacer un barrido del \textit{
 	\label{fig:cnn_convolutionoperationex}
 \end{figure}
 
-Para realizar el producto escalar las matrices se \textit{aplanan}, de tal forma que la submatriz de entrada quedaría de la siguiente forma:
+Para realizar el producto escalar, las matrices se \textit{aplanan}, de tal forma que la submatriz de entrada quedaría de la siguiente forma:
 
 \begin{equation}
 	\left[
@@ -89,7 +89,7 @@ Y por lo tanto el producto escalar:
 	\nonumber
 \end{equation}
 
-Cada una de las neuronas de las capas convolucionales no tiene un único kernel asociado, sino que tienen varios. Teniendo en cuenta esto y suponiendo que tenemos como entrada una imagen en blanco y negro de $28x28$ píxeles y que cada neurona tiene $32$ kernels de $3x3$, la primera capa convolucional estaría compuesta por $784$ neuronas, y se obtendrían como resultado $28 x 28 x 32 = 25.088$ matrices de salida, que se correspondería con el número de neuronas necesarias para la siguiente capa convolucional. Esto hace necesario introducir un mecanismo de reducción para que el número de neuronas necesarias no crezca tan desmesuradamente con cada capa. Este mecanismo se conoce como \textit{pooling} y existen distintos tipos de pooling. Uno de ellos es el \textit{MaxPooling}, y consiste en deslizar una ventana bidimensional sobre la matriz de entrada, de izquierda a derecha y de arriba a abajo. En cada una de las posiciones se tomará como valor resultante el máximo valor presente en la ventana. La capacidad de reducción del MaxPooling depende de dos factores: el tamaño de la ventana y el tamaño del salto que se da hacia la derecha y hacia abajo. En la figura \ref{fig:cnn_maxpooling} se muestra un ejemplo gráfico.
+Cada una de las neuronas de las capas convolucionales no tiene un único kernel asociado, sino que tienen varios. Teniendo en cuenta esto y suponiendo que tenemos como entrada una imagen en blanco y negro de $28x28$ píxeles y que cada neurona tiene $32$ kernels de $3x3$, la primera capa convolucional estaría compuesta por $28 x 28 = 784$ neuronas, y se obtendrían como resultado $28 x 28 x 32 = 25.088$ matrices de salida, que se correspondería con el número de neuronas necesarias para la siguiente capa convolucional. Esto hace necesario introducir un mecanismo de reducción para que el número de neuronas necesarias no crezca tan desmesuradamente con cada capa. Este mecanismo se conoce como \textit{pooling} y existen distintos tipos de pooling. Uno de ellos es el \textit{MaxPooling}, y consiste en deslizar una ventana bidimensional sobre la matriz de entrada, de izquierda a derecha y de arriba a abajo. En cada una de las posiciones se tomará como valor resultante el máximo valor presente en la ventana. La capacidad de reducción del MaxPooling depende de dos factores: el tamaño de la ventana y el tamaño del salto que se da hacia la derecha y hacia abajo. En la figura \ref{fig:cnn_maxpooling} se muestra un ejemplo gráfico.
 
 \begin{figure}[H]
 	\centering
@@ -97,6 +97,8 @@ Cada una de las neuronas de las capas convolucionales no tiene un único kernel 
 	\caption{Representación gráfica de MaxPooling con una entrada de 4x4, una ventana de 2x2 y un salto de 2}
 	\label{fig:cnn_maxpooling}
 \end{figure}
+
+Las redes neuronales convolucionales utilizadas para la detección de objetos tienen como entrada una matriz bidimensional que se corresponde con la imagen (en caso de ser una imagen a color, serán 3 matrices bidimensionales, una por cada canal de color). Como salida se obtiene una lista de predicciones, cada una de las cuales se compone de una región representada por cuatro variables (coordenadas x e y de la esquina superior izquierda, anchura y altura) y de las probabilidades pertencencia del objeto en la región a cada una de las clases que la red es capaz de predecir.
 
 Otra de las técnicas que se han utilizado en el proyecto es la denominada \textit{transferencia del conocimiento (transfer learning)} \cite{s5_transfer_learning}. Entrenar un modelo de detección de objetos es un proceso muy costoso, ya que se necesita un gran volumen de imágenes y una gran capacidad de cómputo. El \textit{transfer learning} viene a paliar este problema ya que permite utilizar un modelo ya entrenado como punto de partida para entrenar otro. Como se ha comentado anteriormente, las primeras capas convolucionales son capaces de detectar formas básicas y a medida que se profundiza en las capas, estas detectan formas más específicas. Si ya tenemos entrenado un modelo (a) para detectar un determinado tipo de objetos y queremos entrenar otro (b) para detectar otro tipo de objetos, las primeras capas de ambos modelos van a detectar el mismo tipo de formas, y serán las capas más profundas las que se diferencien. Por lo tanto podríamos utilizar el modelo \textit{a} como punto de partida para el modelo \textit{b}, y este último podrá aprender más rápido ya que las primeras capas ya están entrenadas para detectar formas básicas.
 
