@@ -103,51 +103,170 @@ La configuración está dividida en tres secciones. La sección \texttt{model} d
 A continuación se describen las principales propiedades de configuración:
 
 \begin{itemize}
-	\item \texttt{model.type}: permite indicar el tipo de modelo que se quiere entrenar. Se soportan dos tipos: \texttt{v3} y \texttt{tiny}, que se corresponden con \textit{YOLO v3} y \textit{YOLO v3 tiny} respectivamente.
-	\item \texttt{model.min\_input\_size} y \texttt{model.max\_input\_size}: la red neuronal YOLO en su versión 3 es una red neuronal de tamaño flexible. Con estas propiedades se establece el tamaño mínimo y máximo de la red. Cada 10 imágenes procesadas durante el entrenamiento, se redimensionarán las imágenes a un tamaño aleatorio entre el mínimo y el máximo, adaptando en consecuencia el tamaño de la red.
-	\item \texttt{model.anchors}: contiene una lista de los las relaciones de aspecto ancho-alto más frecuentes de los objetos a detectar. Estos anchors son usados por YOLO para proponer las regiones. Existe otro script no mencionado anteriormente (\texttt{gen\_anchors.py}) que permite obtener esta lista de anchors aplicando \textit{k-means} a las todas las anotaciones de las imágenes.
-	\item \texttt{model.labels}: contiene los nombres de las clases de los objetos etiquetados en las imágenes.
-	\item \texttt{model.data\_load\_method}: contiene el formato en el que están representadas las etiquetas de las imágenes. Acepta los valores \texttt{txt} y \texttt{voc}.
-	\item \texttt{train.train\_image\_folder}: contiene la ruta al directorio donde se encuentran las imágenes de entrenamiento.
-	\item \texttt{train.train\_annot}: contiene la ruta a un directorio (en el caso de anotaciones \textit{VOC}) o a un fichero (en el caso de anotaciones \textit{txt}) con las anotaciones de las imágenes de entrenamiento.
-	\item \texttt{train.cache\_name}: contiene la ruta a un fichero que sirve de caché para las imágenes de entrenamiento. Esta caché, además de contener las ubicaciones de las imágenes y las anotaciones de las mismas, también contiene las dimensiones de las imágenes. Estas dimensiones son necesarias cuando hay que hacer una redimensión de la imagen, para poder adaptar las regiones de las anotaciones en consonancia. Esta caché evita tener que volver a leer cada una de las imágenes para volver a obtener sus dimensiones.
-	\item \texttt{valid.valid\_image\_folder}, \texttt{valid.valid\_annot} y \texttt{valid.cache\_name}: son propiedades análogas a \texttt{train.train\_image\_folder}, \texttt{train.train\_annot} y \texttt{train.cache\_name} respectivamente, pero para las imágenes de test
-	
-	\item \texttt{train.saved\_weights\_name}:
-	\item \texttt{train.pretrained\_weights}:
-	\item \texttt{train.train\_times}:
-	\item \texttt{train.batch\_size}:
-	\item \texttt{train.learning\_rate}:
-	\item \texttt{train.nb\_epochs}:
-	\item \texttt{train.early\_stopping\_patience}:
-	\item \texttt{train.reduce\_lr\_on\_plateau\_patience}:
-	\item \texttt{valid.duplicate\_thresh}:
+	\item \texttt{model.type}: tipo de modelo que se quiere entrenar. Se soportan dos tipos: \texttt{v3} y \texttt{tiny}, que se corresponden con \textit{YOLO v3} y \textit{YOLO v3 tiny} respectivamente.
+	\item \texttt{model.min\_input\_size} y \texttt{model.max\_input\_size}: tamaño mínimo y máximo de la red. La red neuronal YOLO en su versión 3 es una red neuronal de tamaño flexible. Cada 10 imágenes procesadas durante el entrenamiento, se redimensionarán las imágenes a un tamaño aleatorio entre el mínimo y el máximo configurados, adaptándose en consecuencia el tamaño de la red.
+	\item \texttt{model.anchors}: lista de los las relaciones de aspecto ancho-alto más frecuentes de los objetos a detectar. Estos anchors son usados por YOLO para proponer las regiones. Existe otro script, no mencionado anteriormente (\texttt{gen\_anchors.py}), que permite obtener esta lista aplicando \textit{k-means} sobre las anotaciones de las imágenes.
+	\item \texttt{model.labels}: lista con los nombres de las clases de los objetos etiquetados en las imágenes.
+	\item \texttt{model.data\_load\_method}: formato en el que están representadas las etiquetas de las imágenes. Acepta los valores \texttt{txt} y \texttt{voc} (XML).
+	\item \texttt{train.train\_image\_folder}: ruta al directorio donde se encuentran las imágenes de entrenamiento.
+	\item \texttt{train.train\_annot}: ruta a un directorio (en el caso de anotaciones \textit{voc}) o a un fichero (en el caso de anotaciones \textit{txt}) con las anotaciones de las imágenes de entrenamiento.
+	\item \texttt{train.cache\_name}: ruta a un fichero que sirve de caché para las imágenes de entrenamiento. Esta caché, además de contener las ubicaciones de las imágenes y las anotaciones de las mismas, también contiene las dimensiones de las imágenes. Estas dimensiones son necesarias cuando hay que hacer una redimensión de la imagen, para poder adaptar las regiones de las anotaciones en consonancia. Esta caché evita tener que volver a leer cada una de las imágenes para volver a obtener sus dimensiones.
+	\item \texttt{valid.valid\_image\_folder}, \texttt{valid.valid\_annot} y \texttt{valid.cache\_name}: son propiedades análogas a \texttt{train.train\_image\_folder}, \texttt{train.train\_annot} y \texttt{train.cache\_name} respectivamente, pero para las imágenes de test.
+	\item \texttt{train.saved\_weights\_name}: ruta donde se va a guardar el modelo entrenado. Después de cada época, si el modelo ha mejorado con respecto a la época anterior, será guardado en la ruta configurada, reemplazando al anterior.
+	\item \texttt{train.pretrained\_weights}: ruta con un modelo preentrenado. Esta propiedad permite hacer una transferencia de conocimiento, bien partiendo de un modelo entrenado para detectar otros objetos distintos, o bien para continuar con un entrenamiento anterior.
+	\item \texttt{train.batch\_size}: tamaño del bloque de imágenes después del cual se aplica \textit{backpropagation}.
+	\item \texttt{train.nb\_epochs}: número de veces que el modelo es entrenado con todo el conjunto de entrenamiento.
+	\item \texttt{train.learning\_rate}: número que permite ajustar cómo de rápido aprende el modelo.
+	\item \texttt{train.early\_stopping\_patience}: número de épocas que tienen que pasar sin que el modelo mejore para que se detenga el aprendizaje de manera automática, aunque no se haya llegado al número de épocas configuradas.
+	\item \texttt{train.reduce\_lr\_on\_plateau\_patience}: número de épocas que tienen que pasar sin que el modelo mejore para que se reduzca el \texttt{train.learning\_rate} de manera automática.
+	\item \texttt{train.ignore\_thresh}: umbral por debajo del cual una predicción es ignorada por lo representar suficientemente a ninguno de los objetos a detectar. Se utiliza la \textit{IoU} como unidad de medida. Si el valor de \textit{IoU} entre la región predicha y las regiones a detectar es inferior al límite configurado, la predicción es rechazada.
+	\item \texttt{valid.duplicate\_thresh}: umbral por encima del cual dos predicciones se consideran la misma. Se utiliza la \textit{IoU} como unidad de medida. Si el valor de \textit{IoU} entre varias de las regiones predichas para una misma imagen es superior al umbral configurado, se considerarán la misma predicción y prevalecerá la que tenga un valor más alto de \textit{IoU} con respecto a la región a detectar. Esto es lo que se conoce como \textit{Non-Maximun Suppression} \cite{s6_nonmaximunsuppression}
+	\item \texttt{train.train\_times}: número de veces que se recorre el conjunto de entrenamiento por cada época. Esto es útil cuando el conjunto de entrenamiento contiene pocas imágenes.
 \end{itemize}
+
+\subsubsection*{Formatos para las etiquetas}
+
+Se soportan dos formatos para las etiquetas de las imágenes: \texttt{txt} y \texttt{voc}. El formato \texttt{txt} consiste en un fichero de texto con una línea por cada imagen con el siguiente aspecto:
+
+\begin{lstlisting}[frame=single, basicstyle=\ttfamily\footnotesize, caption={Ejemplo de fichero con las etiquetas en formato txt. La primera de las imágenes tiene 2 etiquetas, la primera está ubicada en la posición (100, 100) y tiene unas dimensiones de 100x40 píxeles. La segunda etiqueta está ubicada en la posición (200, 200) y tiene unas dimensiones de 75x30 píxeles. La segunda imagen tiene una única etiqueta ubicada en (300, 300) con dimensiones 250x100. Todas las etiquetas son de la clase 1}, captionpos=b]
+/tmp/imagen1.jpg 100,100,100,40,1 200,200,75,30,1
+/tmp/imagen2.jpg 300,300,250,100,1
+\end{lstlisting}
+
+En el formato \texttt{voc} existe un fichero \textit{xml} para cada una de las imágenes con el siguiente aspecto:
+
+\begin{lstlisting}[frame=single, basicstyle=\ttfamily\footnotesize, caption={Ejemplo de fichero con las etiquetas en formato voc}, captionpos=b]
+<annotation>
+  <folder>/tmp</folder>
+  <filename>imagen1.jpg</filename>
+  <size>
+    <width>3680</width>
+    <height>2760</height>
+    <depth>3</depth>
+  </size>
+  <object>
+    <name>pothole</name>
+    <difficult>0</difficult>
+    <bndbox>
+      <xmin>100</xmin>
+      <ymin>100</ymin>
+      <xmax>200</xmax>
+      <ymax>140</ymax>
+    </bndbox>
+  </object>
+</annotation>
+\end{lstlisting}
+
+\subsubsection*{Generación de \textit{anchors}}
+
+Como se ha comentado anteriormente, en la descripción de la configuración, existe el script \texttt{gen\_anchors.py} que permite obtener un número determinado de anchors para un conjunto de imágenes. Para poder obtener este listado hace falta:
+
+\begin{itemize}
+	\item Disponer de un conjunto de imágenes
+	\item Disponer de las etiquetas de las imágenes en formato \texttt{txt} (el formato \texttt{voc} no está sorportado en este caso)
+	\item Haber creado un fichero de configuración. En esta configuración el atributo \texttt{model.anchors} es irrelevante, porque es lo que se va a generar
+\end{itemize}
+
+Con todo lo anterior se dispone de lo necesario para ejecutar el script \texttt{gen\_anchors.py}:
+
+\begin{lstlisting}[frame=single, basicstyle=\ttfamily\footnotesize, caption={Cómo generar los \textit{anchors}}, captionpos=b]
+> python gen_anchors.py --config config.json --anchors 9
+\end{lstlisting}
+
+Como resultado se obtendrá una lista con tantos anchors como se hayan indicado. Cada anchor está compuesto por una pareja de números, que representan el ancho y el alto del anchor.
 
 \subsubsection*{Entrenamiento}
 
+Para poder entrenar un modelo hace falta lo siguiente:
+
+\begin{itemize}
+	\item Disponer de un conjunto de imágenes de entrenamiento
+	\item Disponer de las etiquetas de las imágenes en uno de los formatos soportados
+	\item Haber generado los \textit{anchors} para las imágenes de entrenamiento
+	\item Haber creado un fichero de configuración
+\end{itemize}
+
+Una vez que se dispone de todo lo anterior, lo único que queda por hacer es ejecutar el script \texttt{train.py}:
+
+\begin{lstlisting}[frame=single, basicstyle=\ttfamily\footnotesize, caption={Cómo lanzar el entrenamiento}, captionpos=b]
+> python train.py --config config.json
+\end{lstlisting}
+
+Una vez finaliza el entrenamiento, y si se ha configurado el bloque \texttt{valid} en el fichero de configuración, se realizará una evaluación del modelo obtenido.
+
 \subsubsection*{Evaluación}
+
+Para poder evaluar un modelo entrenado hará falta:
+
+\begin{itemize}
+	\item Disponer de un conjunto de imágenes de test
+	\item Disponer de las etiquetas de las imágenes en uno de los formatos soportados
+	\item Disponer de un modelo ya entrenado
+	\item Haber creado un fichero de configuración
+\end{itemize}
+
+Una vez se dispone de todo lo anterior, lo único que habrá que hacer es ejecutar el script \texttt{evaluate.py}:
+
+\begin{lstlisting}[frame=single, basicstyle=\ttfamily\footnotesize, caption={Cómo evaluar un modelo entrenado}, captionpos=b]
+> python evaluate.py --config config.json
+\end{lstlisting}
+
+La evaluación hace el cálculo de la \textit{AP} tanto de una forma global como para cada una de las clases que se hayan configurado.
 
 \subsubsection*{Predicción}
 
 \subsubsection*{Transformación del modelo}
 
+\begin{lstlisting}[frame=single, basicstyle=\ttfamily\footnotesize, language=Python, caption={bla bla bla...}, captionpos=b]
+import tensorflow as tf
+
+tflite_converter = tf.lite.TFLiteConverter
+  .from_keras_model_file(<KERAS_H5_MODEL_PATH>)
+
+tflite_model = tflite_converter.convert()
+
+with open(<KERAS_TFLITE_DEST_PATH>, 'wb') as tflite_model_file:
+  tflite_model_file.write(tflite_model)
+\end{lstlisting}
+
 \subsubsection*{Explotación del modelo}
 
-...
+\begin{lstlisting}[frame=single, basicstyle=\ttfamily\footnotesize, language=Java, caption={bla bla bla...}, captionpos=b]
+AssetFileDescriptor fileDescriptor = assets
+                                 .openFd(<MODEL_TFLITE_FILENAME>);
+FileInputStream inputStream = new FileInputStream(fileDescriptor
+                                 .getFileDescriptor());
+FileChannel fileChannel = inputStream.getChannel();
+long startOffset = fileDescriptor.getStartOffset();
+long declaredLength = fileDescriptor.getDeclaredLength();
+MappedByteBuffer model = fileChannel.map(
+                                 FileChannel.MapMode.READ_ONLY,
+                                 startOffset, declaredLength);
 
-\begin{itemize}
-	\item mencionar transfer learning
-	% https://towardsdatascience.com/transfer-learning-and-image-classification-using-keras-on-kaggle-kernels-c76d3b030649
-	\item non maximal suppression
-	\item batch normalization
-\end{itemize}
+Interpreter.Options interpreterOptions = new Interpreter.Options()
+                                           .setNumThreads(1);
+Interpreter tfLite = new Interpreter(model, interpreterOptions);
 
-\begin{lstlisting}[frame=single, basicstyle=\ttfamily\footnotesize, language=Python, caption={bla bla bla...}, captionpos=b]
-import numpy as np
+float[][][][] floatValues = new float[1][256][256][3];
 
-def myfunc():
-  print(`Hello')
+for (int i = 0; i < 256; i++) {
+  for (int j = 0; j < 256; j++) {
+    for (int k = 0; k < 3; k++) {
+      floatValues[0][i][j][k] = 1.0f;
+    }
+  }
+}
+
+Object[] inputArray = {floatValues};
+
+output1 = new float[1][8][8][18];
+output2 = new float[1][16][16][18];
+
+Map<Integer, Object> outputMap = new HashMap<>();
+outputMap.put(0, output1);
+outputMap.put(1, output2);
+
+tfLite.runForMultipleInputsOutputs(inputArray, outputMap);
 \end{lstlisting}
 
 {\color{red} \textbf{!!! TODO}}
