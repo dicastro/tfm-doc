@@ -1,25 +1,27 @@
 \section{Estado del arte}
 \label{sec:estado_del_arte}
 
-El problema que se pretende resolver podría ser afrontado bien como un problema de clasificación de imágenes o bien como un problema de detección de objetos.
+%El problema que se pretende resolver podría ser afrontado bien como un problema de clasificación de imágenes o bien como un problema de detección de objetos.
 
-El primero de los enfoques es más sencillo y está más estudiado. Dada una imagen, se determina una clase a la que pertenece la imagen. En los problemas de clasificación cada una de las imágenes se centran en un único objeto. Este tipo de problemas se resuelven comúnmente con redes neuronales convolucionales. Existen numerosas arquitecturas de redes neuronales convolucionales ya definidas y estudiadas para resolver este tipo de problemas, como por ejemplo: VGG-16, LeNet, ResNet, GoogLeNet/Inception, etc.
+%El primero de los enfoques es más sencillo y está más estudiado. Dada una imagen, se determina una clase a la que pertenece la imagen. En los problemas de clasificación cada una de las imágenes se centran en un único objeto. Este tipo de problemas se resuelven comúnmente con redes neuronales convolucionales. Existen numerosas arquitecturas de redes neuronales convolucionales ya definidas y estudiadas para resolver este tipo de problemas, como por ejemplo: VGG-16, LeNet, ResNet, GoogLeNet/Inception, etc.
 
-El segundo de los enfoques es más complicado, y presenta varios retos. El primero de ellos es que las imágenes no se centran en un único objeto, sino que puede haber múltiples objetos a detectar y además tratarse de objetos de distintos tipos. El segundo de los restos es el tamaño de los objetos a identificar, que puede ser variable. Y el tercero de los retos es que se están resolviendo dos problemas al mismo tiempo: localizar objetos en una imagen y clasificar los objetos localizados.
+La detección de objetos en imágenes es un problema que presenta múltiples retos. El primero de ellos es que las imágenes no se centran en un único objeto, sino que en una misma imagen puede haber múltiples objetos a detectar y además tratarse de objetos de distintos tipos. El segundo de los restos es el tamaño de los objetos a identificar, que puede ser variable. Y el tercero de los retos es que se están resolviendo dos problemas al mismo tiempo: localizar objetos en una imagen y clasificar los objetos localizados.
 
-Para resolver los problemas de detección de objetos existen dos aproximaciones. La primera de las aproximaciones es una aproximación clásica, basada en técnicas de machine learning. Un ejemplo representativo de esta aproximación clásica es Viola-Jones, que se basa en clasificadores binarios y que se ha usado en las cámaras de fotos para la detección de caras.
+%El segundo de los enfoques es más complicado, y presenta varios retos. El primero de ellos es que las imágenes no se centran en un único objeto, sino que puede haber múltiples objetos a detectar y además tratarse de objetos de distintos tipos. El segundo de los restos es el tamaño de los objetos a identificar, que puede ser variable. Y el tercero de los retos es que se están resolviendo dos problemas al mismo tiempo: localizar objetos en una imagen y clasificar los objetos localizados.
 
-El uso del deep learning para la detección de objetos ha supuesto una revolución y ha cambiado las reglas del juego. Esta aproximación para la resolución de este tipo de problemas es relativamente reciente y ha estado en constante evolución.
+Para resolver los problemas de detección de objetos existen dos aproximaciones. La primera de las aproximaciones es una aproximación clásica, basada en técnicas de machine learning. Un ejemplo es \textit{Viola-Jones}, que está basado en clasificadores binarios y que se ha usado en las cámaras de fotos para la detección de caras.
 
-En estos últimos años han habido múltiples aproximaciones para afrontar el problema de detección de objetos. A continuación se va a hacer un repaso de las más relevantes \cite{s2_stateofart1} \cite{s2_stateofart2} \cite{s2_stateofart5} \cite{s2_stateofart6} \cite{s2_stateofart7}.
+La segunda aproximación es el uso del deep learning, lo cual ha supuesto una revolución y ha cambiado las reglas del juego. Esta aproximación para la resolución de este tipo de problemas es relativamente reciente y ha estado en constante evolución.
+
+En estos últimos años han habido múltiples desarrollos para afrontar el problema de detección de objetos con deep learning. A continuación se va a hacer un repaso de los más relevantes \cite{s2_stateofart1} \cite{s2_stateofart2} \cite{s2_stateofart5} \cite{s2_stateofart6} \cite{s2_stateofart7}.
 
 \subsection*{R-CNN}
 
-Una de las primeras aproximaciones que hicieron uso de técnicas de deep learning para la resolución de problemas de detección de objetos es \textit{R-CNN} (Region-based Convolutional Neural Networks) \cite{s2_stateofart_rcnn}. El funcionamiento de R-CNN consiste en 3 pasos:
+Una de las primeras soluciones que hicieron uso de técnicas de deep learning para la resolución de problemas de detección de objetos fue \textit{R-CNN (Region-based Convolutional Neural Networks)} \cite{s2_stateofart_rcnn}. El funcionamiento de R-CNN se resume en tres pasos:
 
 \begin{enumerate}
-	\item Se escanea la imagen en busca de posibles objetos. Mediante un algoritmo de proposición de regiones, el más habitual es la \textit{búsqueda selectiva} (selective search) \cite{s2_stateofart_selectivesearch}, se obtienen una serie de regiones (aproximadamente unas 2000 regiones) candidatas de contener un objeto (RoI, Region of Interest)
-	\item Se ejecuta una red neuronal convolucional para extraer las características (features) de cada una de las regiones de interés
+	\item Se escanea la imagen en busca de posibles objetos. Mediante un algoritmo de proposición de regiones, el más habitual es la \textit{búsqueda selectiva (selective search)} \cite{s2_stateofart_selectivesearch}, se obtienen una serie de regiones candidatas de contener un objeto, denominadas \textit{RoI (Region of Interest)}. Se obtienen aproximadamente unas 2000 RoIs.
+	\item Se ejecuta una red neuronal convolucional para extraer las características \textit{(features)} de cada una de las regiones de interés
 	\item Las características obtenidas de la red neuronal convolucional alimentan:
 	\begin{enumerate}
 		\item un SVM para clasificar el objeto
@@ -27,29 +29,29 @@ Una de las primeras aproximaciones que hicieron uso de técnicas de deep learnin
 	\end{enumerate}
 \end{enumerate}
 
-Aunque con esta aproximación se obtienen buenos resultados, tiene muchos inconvenientes, el principal es la dificultad para entrenar. Por un lado hay que obtener las regiones de interés del conjunto de entrenamiento, después hay que ejecutar la red neuronal convolucional sobre cada una de las regiones candidatas para obtener las características. Finalmente hay que entrenar el clasificador SVM.
+Aunque con esta aproximación se obtienen buenos resultados, presenta muchos inconvenientes, entre los cuales destaca la dificultad para entrenar. Por un lado hay que obtener las regiones de interés del conjunto de entrenamiento, después hay que ejecutar la red neuronal convolucional sobre cada una de las regiones candidatas para obtener las características. Finalmente hay que entrenar el clasificador SVM y el regresor lineal con las características obtenidas.
 
 \subsection*{Fast R-CNN}
 
-La aproximación \textit{R-CNN} no tardó en evolucionar hacia una aproximación más pura de deep learning. El mismo autor de \textit{R-CNN} fue el autor de su evolución \textit{Fast R-CNN} \cite{s2_stateofart_fastrcnn}.
+R-CNN no tardó en evolucionar hacia una solución de deep learning más pura. El mismo autor de R-CNN fue el autor de su evolución \textit{Fast R-CNN} \cite{s2_stateofart_fastrcnn}.
 
-En este caso se ejecuta la red neuronal convolucional sobe la imagen completa para obtener las características. Una vez obtenidas las características se aplica la \textit{búsqueda selectiva} para obtener las regiones de interés. A continuación se reduce el número de regiones de interés con una capa \textit{RoI Pooling} y una red neuronal totalmente conectada. Por último para realizar la clasificación se utiliza un clasificador \textit{softmax}, en lugar de SVM. Para ajustar las regiones se sigue utilizando una regresión lineal.
+En este caso se ejecuta la red neuronal convolucional sobe la imagen completa para obtener las características. Una vez obtenidas las características se aplica la \textit{búsqueda selectiva} para obtener las regiones de interés. A continuación se reduce el número de regiones de interés con una capa \textit{RoI Pooling} y una red neuronal totalmente conectada. Por último para realizar la clasificación de los objetos se utiliza un clasificador \textit{softmax}, en lugar de SVM. Para ajustar las regiones se sigue utilizando una regresión lineal.
 
-Esta aproximación presenta múltiples ventajas con respecto a su predecesora. Por un lado, la red neuronal convolucional se ejecuta una única vez, en lugar de una vez por cada región de interés (aproximadamente unas 2000 regiones de interés). Por otro lado, en vez de utilizar múltiples SVM para realizar la clasificación, se utiliza un único clasificador \textit{softmax}. Con todo esto se mejora mucho el rendimiento y se facilita el entrenamiento. Sin embargo, sigue teniendo una pega, que es el uso de la \textit{búsqueda selectiva} para obtener las regiones de interés.
+Esta aproximación presenta múltiples ventajas con respecto a su predecesora. Por un lado, la red neuronal convolucional se ejecuta una única vez, en lugar de una vez por cada región de interés (aproximadamente unas 2000 regiones de interés). Por otro lado, en vez de utilizar múltiples SVM para realizar la clasificación, se utiliza un único clasificador softmax. Con todo esto se mejora mucho el rendimiento, además de que se facilita el entrenamiento. Sin embargo, sigue teniendo una pega, que es el uso de la búsqueda selectiva para obtener las regiones de interés.
 
 \subsection*{Faster R-CNN}
 
-La aproximación \textit{Fast R-CNN} sufrió una tercera evolución para dar lugar a \textit{Faster R-CNN} \cite{s2_stateofart_fasterrcnn}. En esta tercera iteración se suprimió el uso de la \textit{búsqueda selectiva} y se introdujo en su lugar lo que se denominó \textit{red de proposición de regiones} (RPN, Region Proposal Network). De esta forma se consiguió mejorar bastante el rendimiento y tener un la aproximación que es entrenable de principio a fin.
+La aproximación Fast R-CNN sufrió una tercera evolución para dar lugar a \textit{Faster R-CNN} \cite{s2_stateofart_fasterrcnn}. En esta tercera iteración se suprimió el uso de la \textit{búsqueda selectiva} y se introdujo en su lugar lo que se denominó \textit{red de proposición de regiones (RPN, Region Proposal Network)}. De esta forma se consiguió mejorar bastante el rendimiento y tener un la aproximación que es entrenable de principio a fin.
 
 \subsection*{YOLO}
 
-\textit{YOLO} , que responde al acrónimo \textit{\textbf{Y}ou \textbf{O}nly \textbf{L}ook \textbf{O}nce}, predice con una única red neuronal convolucional, y de una vez, tanto las regiones como las clases de los objetos. Esta simplicidad le permite realizar predicciones en tiempo real.
+Hasta la aparición de \textit{YOLO}, los enfoques que se habían utilizado consistían en adaptar las técnicas de clasificación de imágenes para la detección de objetos. YOLO, que responde al acrónimo \textit{\textbf{Y}ou \textbf{O}nly \textbf{L}ook \textbf{O}nce}, cambia el enfoque y afronta el problema de detección como una regresión. Con una única red neuronal convolucional, y de una vez, es capaz de predecir tanto las regiones como las clases de los objetos. Esta simplicidad le permite realizar predicciones en tiempo real.
 
-El sistema divide la imagen en una rejilla de dimensiones $SxS$ y en cada una de las celdas de la rejilla se obtienen $B$ predicciones de regiones candidatas de contener un objeto con un valor de confianza. Esta confianza refleja la probabilidad de contener un objeto y como de ajustada es la región candidata con respecto a la región a detectar. Esto último se hace en base al \textit{IoU} (Intersection over Union), de la región candidata con respecto a la verdadera.
+Con YOLO se divide la imagen en una rejilla de dimensiones $SxS$. En cada una de las celdas de la rejilla se obtienen $B$ regiones candidatas de contener un objeto con un valor de confianza. Esta confianza refleja la probabilidad de contener un objeto, y cómo de ajustada es la región candidata con respecto a la región a detectar. Esto último se hace en base al \textit{IoU (Intersection over Union)}, de la región candidata con respecto a la verdadera.
 
-El diseño original está inspirado en \textit{GoogLeNet}. Está formado por 24 capas convolucionales y 2 capas totalmente conectadas. Con respecto a los resultados, está un poco por debajo de \textit{Faster R-CNN}, en lo que respecta a precisión, pero a cambio ofrece un alto rendimiento.
+El diseño original, inspirado en \textit{GoogLeNet}, está formado por 24 capas convolucionales y 2 capas totalmente conectadas. Con respecto a los resultados, está un poco por debajo de Faster R-CNN, en lo que respecta a precisión, pero a cambio ofrece un alto rendimiento.
 
-Al igual que sucedió con \textit{R-CNN}, \textit{YOLO} ha estado en continua evolución. Actualmente la última versión desarrollada es la versión 3 \cite{s2_stateofart_yolov3}. En esta última iteración se han hecho pequeñas mejoras y se ha hecho la red más grande, en esta versión hay 53 capas convolucionales.
+Al igual que sucedió con R-CNN, YOLO ha estado en continua evolución. La última versión desarrollada es la versión \textit{YOLO V3} \cite{s2_stateofart_yolov3}. En esta última iteración se han hecho pequeñas mejoras y se ha hecho la red más grande (106 capas convolucionales), mejorando la detección de objetos pequeños, a cambio de hacerla un poco más lenta con respecto a la anterior.
 
 \subsection*{Más ...}
 
