@@ -3,9 +3,6 @@
 
 \subsection{Definición de requisitos}
 
-% (que se quiere hacer definido de una manera formal)
-% descripción del caso de uso
-
 A continuación se enumeran los requisitos para el desarrollo del trabajo:
 
 \begin{itemize}
@@ -16,9 +13,6 @@ A continuación se enumeran los requisitos para el desarrollo del trabajo:
 \end{itemize}
 
 \subsection{Arquitectura}
-
-% (Haz un diagrama y luego explicalo, asi te valdrá para la presentación del proyecto)
-% diagrama sencillo con la arquitectura: fotos + red neuronal + modelo + móvil
 
 \begin{figure}[H]
 	\centering
@@ -32,9 +26,6 @@ Como se puede observar en la figura \ref{fig:architecture}, la arquitectura est�
 La parte utilizada durante el entrenamiento requiere de un hardware potente y del uso de GPU para reducir los tiempos de entrenamiento. La explotación del modelo, al contrario de lo que sucede con el entrenamiento, no requiere de un hardware potente y se ejecuta directamente en un dispositivo móvil en posesión del usuario final. El modelo obtenido después de la fase de entrenamiento, se transforma a un formato que está pensado para ser ejecutado en dispositivos con recursos limitados.
 
 \subsection{Tecnologías}
-
-% (Esto es poco más que enumerar lo que vas a utilizar)
-% python, keras, tensorflow, opencv, java, yolo v3, yolo v3 tiny
 
 Todo el proyecto ha sido desarrollado utilizando Python, salvo la aplicación Android, que ha sido desarrollada en Java.
 
