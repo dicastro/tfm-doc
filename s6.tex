@@ -3,11 +3,11 @@
 
 \subsection{Detalles de la implementación de las técnicas de DL aplicadas}
 
-En este apartado cómo se ha implementado el proyecto, para ello se muestra una visión general de la estructura del código, se detallan y explican las distintas opciones de configuración para su ejecución y se explica un flujo completo de principio a fin: entrenamiento, evaluación, predicción, transformación y explotación en dispositivo móvil.
+En este apartado se explica cómo se ha implementado el proyecto. Para ello se muestra una visión general de la estructura del código, se detallan y explican las distintas opciones de configuración para su ejecución y se explica un flujo completo de principio a fin: entrenamiento, evaluación, predicción, transformación y explotación en dispositivo móvil.
 
 \subsubsection*{Estructura del proyecto}
 
-Como se ha comentado anteriormente el proyecto se basa en dos implementaciones de YOLO (\textit{v3} y \textit{v3 tiny}) utilizando keras. Ambas implementaciones han sido unificadas en una que soporta ambos tipos de red. Dicha implementación presenta la estructura que se muestra a continuación (únicamente se muestran los elementos más relevantes y con un asterisco los scripts principales, el resto son auxiliares):
+Como se ha comentado anteriormente el proyecto se basa en dos implementaciones de YOLO (\textit{v3} y \textit{v3 tiny}) utilizando keras. Ambas implementaciones han sido unificadas en una \cite{s3_yolo_dicastro} que soporta ambos tipos de red. Dicha implementación presenta la estructura que se muestra a continuación (únicamente se muestran los elementos más relevantes y con un asterisco los scripts principales, el resto son auxiliares):
 
 \begin{itemize}
 	\item \texttt{utils}
@@ -33,17 +33,17 @@ A continuación se describe la funcionalidad general de cada uno de estos script
 \begin{itemize}
 	\item \texttt{utils/bbox.py}: contiene la definición de la clase \texttt{BoundBox} que se utiliza para representar cada una de las predicciones obtenidas con el modelo. Tiene los atributos necesarios para identificar la región y la probabilidad de pertenencia del objeto a cada una de las clases.
 	\item \texttt{utils/utils.py}: contiene funciones de cálculo auxiliares, como por ejemplo una función para calcular el \textit{AP} de un modelo, otra función para el procesamiento de la salida del modelo, etc.
-	\item \texttt{annotations.py}: este script permite procesar los ficheros con las anotaciones de las imágenes. Es capaz de procesar annotaciones en formato \textit{VOC} y en formato \textit{txt}.
-	\item \texttt{callbacks.py}: contiene la definición de \textit{callbacks} de keras customizados. Un ejemplo es un callback que se ha definido para que se ejecute al final de cada época para guardar el modelo actual si ha mejorado con respecto al anterior.
-	\item \texttt{evaluate.py}: este script permite evaluar un modelo calculando su \textit{AP}. Recibe como parámetro un fichero de configuración.
-	\item \texttt{predict.py}: este script permite obtener las predicciones de una imagen, las imágenes de un directorio o un video. Recibe como argumento un fichero de configuración.
+	\item \texttt{annotations.py}: este script permite procesar los ficheros con las etiquetas de las imágenes. Es capaz de procesar annotaciones en formato \texttt{voc} y en formato \texttt{txt}.
+	\item \texttt{callbacks.py}: contiene la definición de \textit{callbacks} de keras customizados. Un ejemplo, es un callback que se ha definido para que se ejecute al final de cada época y persista en disco el modelo actual siempre que mejore con respecto al de la época anterior.
+	\item \texttt{evaluate.py}: este script permite evaluar un modelo calculando su \textit{AP}.
+	\item \texttt{predict.py}: este script permite obtener las predicciones de una imagen, de las imágenes de un directorio o de un video.
 	\item \texttt{train.py}: este script permite entrenar un modelo en base a un fichero de configuración, recibido como argumento.
-	\item \texttt{yolo\_generator.py}: contiene la definición de la clase \texttt{BatchGenerator} que se utiliza para alimentar los modelos de tipo \textit{YOLO v3}. Tiene configuradas entre otras cosas un directorio que contiene imágenes y sus correspondientes anotaciones. Va proporcionando al modelo las entradas a medida que las va necesitando. Se encarga también del preprocesamiento de las imágenes, que en este caso consiste en redimensionar la imagen al tamaño de la red neuronal y hacer ciertas transformaciones aleatorias sobre la imagen, como por ejemplo rotarla.
-	\item \texttt{yolo\_v3\_weight\_reader.py}: contiene la definición de la clase \texttt{WeightReader}  que es capaz de transformar los pesos ya entrenados de la red \textit{YOLO v3}.
+	\item \texttt{yolo\_generator.py}: contiene la definición de la clase \texttt{BatchGenerator} que se utiliza para alimentar los modelos de tipo \textit{YOLO v3}. Tiene configurado, entre otras cosas, un directorio que contiene imágenes y sus correspondientes anotaciones. Se encarga de proporcionar al modelo las imágenes a medida que las va necesitando. Es muy útil cuando se tienen grandes cantidades de datos, ya que evita tener que cargar todos los datos en memoria. Se encarga también del preprocesamiento de las imágenes, que en este caso consiste en redimensionar la imagen al tamaño de la red neuronal y normalizarla dividiendo entre $255$. Además, durante la fase de entrenamiento, realiza otro tipo de transformaciones aleatorias, como por ejemplo rotaciones, cambios de saturación o de color.
+	\item \texttt{yolo\_v3\_weight\_reader.py}: contiene la definición de la clase \texttt{WeightReader}  que es capaz de transformar los pesos ya entrenados de la red \textit{YOLO v3} en formato \textit{darknet} a formato \textit{keras}.
 	\item \texttt{yolo.py}:  contiene la definición del modelo \textit{YOLO v3} con cada una de sus capas convolucionales y sus interconexiones.
 	\item \texttt{yolo\_tiny\_generator.py}: contiene la definición de la clase \texttt{BatchGenerator}, pero adaptada para los modelos \textit{YOLO v3 tiny}.
-	\item \texttt{yolo\_tiny\_weight\_reader.py}: contiene la de la clase \texttt{WeightReader} que es capaz de transformar los pesos ya entrenados de la red \textit{YOLO v3 tiny}, que están en formato \textit{darknet}, al formato de keras.
-	\item \texttt{yolo\_tiny.py}: contiene la definición del modelo \textit{YOLO v3} con cada una de sus capas convolucionales y sus interconexiones.
+	\item \texttt{yolo\_tiny\_weight\_reader.py}: contiene la definición de la clase \texttt{WeightReader}  que es capaz de transformar los pesos ya entrenados de la red \textit{YOLO v3 tiny} en formato \textit{darknet} a formato \textit{keras}.
+	\item \texttt{yolo\_tiny.py}: contiene la definición del modelo \textit{YOLO v3 tiny} con cada una de sus capas convolucionales y sus interconexiones.
 \end{itemize}
 
 \subsubsection*{Configuración}
@@ -61,9 +61,9 @@ Tanto el entrenamiento, como la evaluación, como la predicción de imágenes se
     "data_load_method": "txt"
   },
   "train": {
-    "train_image_folder": "<PATH_TO_DIR>",
-    "train_annot": "<PATH_TO_DIR_OR_FILE>",
-    "cache_name": "<PATH_TO_FILE>",
+    "train_image_folder": "/dataset/train",
+    "train_annot": "/dataset/train_annotations.txt",
+    "cache_name": "/dataset/train_cache.pickle",
     "train_times": 4,
     "batch_size": 4,
     "learning_rate": 0.0001,
@@ -79,14 +79,14 @@ Tanto el entrenamiento, como la evaluación, como la predicción de imágenes se
     "xywh_scale": 1,
     "class_scale": 1,
     "tensorboard_dir": "logs/",
-    "saved_weights_name": "<PATH_WHERE_TRAINED_MODEL_IS_SAVED>",
-    "pretrained_weights": "<PATH_TO_PRETRAINED_MODEL_FILE>",
+    "saved_weights_name": "/model/v1.h5",
+    "pretrained_weights": "/model/yolo_v3_tiny_weights.h5",
     "debug": true
   },
   "valid": {
-    "valid_image_folder": "<PATH_TO_DIR>",
-    "valid_annot": "<PATH_TO_DIR_OR_FILE>",
-    "cache_name": "<PATH_TO_FILE>",
+    "valid_image_folder": "/dataset/test",
+    "valid_annot": "/dataset/test_annotations.txt",
+    "cache_name": "/dataset/test_cache.pickle",
     "duplicate_thresh": 0.20,
     "valid_times": 1
   }
@@ -99,8 +99,8 @@ A continuación se describen las principales propiedades de configuración:
 
 \begin{itemize}
 	\item \texttt{model.type}: tipo de modelo que se quiere entrenar. Se soportan dos tipos: \texttt{v3} y \texttt{tiny}, que se corresponden con \textit{YOLO v3} y \textit{YOLO v3 tiny} respectivamente.
-	\item \texttt{model.min\_input\_size} y \texttt{model.max\_input\_size}: tamaño mínimo y máximo de la red. La red neuronal YOLO en su versión 3 es una red neuronal de tamaño flexible. Cada 10 imágenes procesadas durante el entrenamiento, se redimensionarán las imágenes a un tamaño aleatorio entre el mínimo y el máximo configurados, adaptándose en consecuencia el tamaño de la red.
-	\item \texttt{model.anchors}: lista de los las relaciones de aspecto ancho-alto más frecuentes de los objetos a detectar. Estos anchors son usados por YOLO para proponer las regiones. Existe otro script, no mencionado anteriormente (\texttt{gen\_anchors.py}), que permite obtener esta lista aplicando \textit{k-means} sobre las anotaciones de las imágenes.
+	\item \texttt{model.min\_input\_size} y \texttt{model.max\_input\_size}: tamaño mínimo y máximo de la red. La red neuronal YOLO en su versión 3 es una red neuronal de tamaño variable. Por cada 10 imágenes procesadas, durante la fase de entrenamiento, se hará un redimensionamiento de la red a un tamaño aleatorio entre el mínimo y el máximo configurados.
+	\item \texttt{model.anchors}: lista con las relaciones de aspecto ancho-alto más frecuentes de los objetos a detectar. Estos anchors son usados por YOLO para proponer las regiones. Con el script, no mencionado anteriormente,  \texttt{gen\_anchors.py} se puede obtener fácilmente esta lista. Lo que hace el script es aplicar \textit{k-means} sobre las etiquetas de las imágenes.
 	\item \texttt{model.labels}: lista con los nombres de las clases de los objetos etiquetados en las imágenes.
 	\item \texttt{model.data\_load\_method}: formato en el que están representadas las etiquetas de las imágenes. Acepta los valores \texttt{txt} y \texttt{voc} (XML).
 	\item \texttt{train.train\_image\_folder}: ruta al directorio donde se encuentran las imágenes de entrenamiento.
