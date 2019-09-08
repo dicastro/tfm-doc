@@ -4,32 +4,34 @@
 
 En los últimos años las prioridades en relación a la seguridad vial han provocado un cambio de mentalidad en la sociedad.  Muchos de los últimos avances tecnológicos están orientados al desarrollo de medios de transporte más seguros. Uno de estos avances que contribuye a la mejora de la seguridad es la inclusión de un sistema de detección de desperfectos en la calzada.
 
-En la actualidad, en el ayuntamiento de Madrid, existe un sistema de sugerencias y reclamaciones \cite{s1_syr} que permite al ciudadano, entre otras opciones, denunciar la existencia de irregularidades en el asfalto, tener un registro de las mismas y planificar su subsanación. Según el informe de sugerencias y reclamaciones del ayuntamiento de Madrid \cite{s1_syrreport}, en el primer semestre del año, se registraron 3.000 reclamaciones en materia de \textit{vías y espacios públicos} de las cuales el 50\% correspondieron a la submateria \textit{aceras y calzadas}.
+En la actualidad, en el ayuntamiento de Madrid, existe un sistema de sugerencias y reclamaciones \cite{s1_syr} que permite al ciudadano, entre otras opciones, denunciar la existencia de irregularidades en el asfalto, tener un registro de las mismas y planificar su subsanación. Según el último informe publicado de sugerencias y reclamaciones del ayuntamiento de Madrid \cite{s1_syrreport}, en el primer semestre del año 2018, se registraron 3.000 reclamaciones en materia de \textit{vías y espacios públicos} de las cuales el 50\% correspondieron a la submateria \textit{aceras y calzadas}.
 
 Este sistema de funcionamiento actual, que delega en el ciudadano la tarea de reporte de este tipo de desperfectos, dificulta y retrasa la puesta en conocimiento de las irregularidades a las autoridades responsables aumentando la probabilidad de que suceda algún incidente.
 
 Algunas marcas de vehículos han desarrollado innovaciones, que son capaces de detectar baches cuando pasan sobre ellos y adaptar la dureza de la suspensión para conseguir una conducción más segura y cómoda. También contemplan un envío sistemático de la detección de baches, en tiempo real, tanto a otros vehículos como a las autoridades pertinentes. Otras marcas plantean la inclusión de cámaras que permitan la detección del bache sin necesidad de pasar por encima de este.
 
-Con estas innovaciones se recupera el control sobre la detección de baches, liberando al ciudadano de esta tarea y reduciendo la probabilidad de incidentes gracias a disponer de la información con más antelación.
+Con estas innovaciones las autoridades recuperan el control sobre la detección de baches, se libera al ciudadano de esta tarea y se reduce la probabilidad de incidentes gracias a que se dispone de la información con más antelación.
 
 \subsection{Objetivos}
 
-Este trabajo trata de desarrollar un sistema de detección de baches en tiempo real en línea con los últimos avances tecnológicos. El objetivo es entrenar una red neuronal con un conjunto de imágenes donde los baches han sido etiquetados previamente y obtener como resultado un modelo exportable para ser ejecutado en un dispositivo móvil.
+Con este proyecto se pretende realizar un desarrollo que tenga una utilidad social, y que al mismo tiempo permita ampliar los conocimientos adquiridos durante el máster de Big Data \& Data Science, impartido por la U-TAD, en el ámbito del procesamiento de imágenes, concretamente en la detección de objetos en imágenes.
 
-Gracias a este trabajo he podido ampliar los conocimientos adquiridos durante el máster de Big Data \& Data Science, impartido por la U-TAD, centrando el proyecto en el procesamiento de imágenes y tratando al mimso tiempo que tenga una utilidad social.
+En este trabajo se desarrollará un sistema de detección de baches en tiempo real, en línea con los últimos avances tecnológicos. El objetivo es entrenar una red neuronal con un conjunto de imágenes, en las que los baches han sido etiquetados previamente, y obtener como resultado un modelo exportable para ser ejecutado en un dispositivo móvil.
+
+%Con este proyecto se pretende ampliar los conocimientos adquiridos durante el máster de Big Data \& Data Science, impartido por la U-TAD, centrando el proyecto en el procesamiento de imágenes y tratando al mimso tiempo que tenga una utilidad social.
 
 \subsection{Estructura del trabajo}
 
-La sección \textit{\nameref{sec:estado_del_arte}} explica cómo se pueden solucionar este tipo de problemas, y se centra en la resolución de los mismos mediante el uso de redes neuronales, valorando los pros y contras de cada uno de ellas.
+En la sección \textit{\nameref{sec:estado_del_arte}} se explica qué técnicas existen hoy en día para solucionar el problema de detección de objetos, centrándose en la resolución del mismo mediante el uso de redes neuronales.
 
-La sección \textit{\nameref{sec:definicion_de_requisitos_y_analisis}} realiza un análisis de requisitos del proyecto y plantea una arquitectura para su desarrollo.
+En la sección \textit{\nameref{sec:definicion_de_requisitos_y_analisis}} se exponen los requisitos del proyecto y se muestra la arquitectura utilizada para su implementación.
 
-La sección \textit{\nameref{sec:datos}} describe el conjunto de datos utilizado, el análisis exploratorio que se ha realizado sobre el mismo y el preprocesamiento que se realiza sobre los datos antes de ser utilizados.
+La sección \textit{\nameref{sec:datos}} describe el conjunto de datos utilizado. También muestra el análisis exploratorio que se ha realizado sobre el mismo y el tratamiento aplicado sobre los datos antes de ser utilizados.
 
-La sección \textit{\nameref{sec:tecnicas_de_deep_learning_y_metodos_de_evaluacion}} realiza una descripción a nivel teórico de las principales técnicas y conceptos que se aplican en el tipo de red neuronal seleccionada para el desarrollo del proyecto. También describe las métricas que se utilizan para evaluar los modelos generados.
+En la sección \textit{\nameref{sec:tecnicas_de_deep_learning_y_metodos_de_evaluacion}} se describen a nivel teórico las principales técnicas y conceptos aplicados en el trabajo, así como las métricas que se utilizan para evaluar los resultados obtenidos.
 
-La sección \textit{\nameref{sec:implementacion_y_evaluacion_de_las_tecnicas}} describe cómo se ha implementado la red neuronal y el resultado de la evaluación de los modelos generados.
+La sección \textit{\nameref{sec:implementacion_y_evaluacion_de_las_tecnicas}} describe, desde un nivel técnico, cómo se ha implementado la solución y muestra la evaluación de los resultados obtenidos.
 
-La sección \textit{\nameref{sec:resultados}} muestra algunos ejemplos concretos obtenidos con los distintos modelos generados.
+En la sección \textit{\nameref{sec:resultados}} se muestran algunos ejemplos representativos concretos.
 
-La sección \textit{\nameref{sec:conclusiones}} contiene una valoración del proyecto y se comentan posibles mejoras a realizar.
+La sección \textit{\nameref{sec:conclusiones}} contiene una valoración del trabajo realizado y se comentan posibles mejoras a realizar para continuar con el desarrollo del mismo.
