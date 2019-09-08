@@ -3,18 +3,24 @@
 
 \subsection{Explicar las técnicas de DL que se van a utilizar en el proyecto}
 
-A continuación se explicarán las principales técnicas utilizadas para el desarrollo del proyecto. Algunas de las técnicas mencionada no son específicas del deep learning.
+A continuación se explicarán las principales técnicas utilizadas para el desarrollo del proyecto. Algunas de las técnicas que se mencionan no son específicas del deep learning.
 
-La primera de las técnicas es una de las técnicas \textit{generalistas}, propia de los algoritmos de aprendizaje en general. Se trata del \textit{hold-out}, que consiste en dividir el conjunto de datos en dos subconjuntos: uno que se utiliza para el entrenamiento y otro que se utiliza para evaluar el modelo obtenido tras el entrenamiento.
+\subsubsection*{\textit{Hold-out}}
 
-Para el desarrollo del proyecto se ha implementado una \textit{red neuronal convolucional (CNN)} \cite{s5_cnn1} \cite{s5_cnn2} \cite{s5_cnn3}. Las \textit{CNNs} están compuestas por una secuencia de capas convolucionales, para la extracción de características, seguidas de unas capas perceptrón simples, para la clasificación final. Las capas convolucionales forman una jerarquía, de forma que las capas del principio son capaces de detectar formas básicas y cuanto más ``profunda'' es la capa, más complejas son las formas que son capaces de detectar. Por ejemplo: una capa inicial sería capaz de detectar líneas y círculos, mientras que una capa profunda sería capaz de detectar una cara.
+El entrenamiento de las redes neuronales YOLO se ha realizado siguiendo esta técnica. Hold-out no es una técnica específica del deep learning, sino que es una técnica general que aplica sobre cualquier algoritmo de aprendizaje. Consiste en dividir el conjunto de datos en dos subconjuntos: uno que se utiliza para el entrenamiento y otro que únicamente se utiliza para evaluar el modelo obtenido tras el entrenamiento.
 
-Las capas convolucionales están compuestas por neuronas que realizan la operación de \textit{convolución}. Dichas neuronas reciben en la entrada una matriz bidimensional, que se corresponde con la imagen, si se trata de la primera capa de la red, o con la salida de la capa convolucional anterior. Además, cada una de estas neuronas tiene definido un \textit{kernel}, que es otra matriz bidimensional de dimensiones reducidas.
+\subsubsection*{\textit{Red Neuronal Convolucional (CNN)}}
+
+Tal y como se ha comentado en el apartado \textit{\nameref{sec:estado_del_arte}}, YOLO es una red neuronal convolucional, por lo que antes de entrar en los detalles se va a explicar cómo funciona una CNN \cite{s5_cnn1} \cite{s5_cnn2} \cite{s5_cnn3}.
+
+Las CNNs están compuestas por una sucesión de capas convolucionales, para la extracción de características, seguidas de unas capas perceptrón simples, para la clasificación final. Las capas convolucionales forman una jerarquía, de forma que las capas del principio son capaces de detectar formas básicas y cuanto más ``profunda'' es la capa, más complejas son las formas que son capaces de detectar. Por ejemplo: una capa inicial sería capaz de detectar líneas y círculos, mientras que una capa profunda sería capaz de detectar una cara.
+
+Cada capa convolucional recibe como entrada una matriz bidimensional. En el caso de tratarse de la primera capa la entrada se corresponde directamente con la imagen, si se trata de una capa más profunda la entrada se corresponde con la salida de la capa anterior. Además, cada capa tiene definido un \textit{kernel}, que no es más que otra matriz bidimensional de dimensiones reducidas. Con la matriz de entrada y el kernel se realiza la operación de \textit{convolución}.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{images/convolutional_neuron_example.png}
-	\caption{Ejemplo de neurona convolucional con una entrada de 5x5 y un kernel de 3x3}
+	\caption{Ejemplo de capa convolucional con una entrada de 5x5 y un kernel de 3x3}
 	\label{fig:cnn_neuronex}
 \end{figure}
 
@@ -89,7 +95,9 @@ Y por lo tanto el producto escalar:
 	\nonumber
 \end{equation}
 
-Cada una de las neuronas de las capas convolucionales no tiene un único kernel asociado, sino que tienen varios. Teniendo en cuenta esto y suponiendo que tenemos como entrada una imagen en blanco y negro de $28x28$ píxeles y que cada neurona tiene $32$ kernels de $3x3$, la primera capa convolucional estaría compuesta por $28 x 28 = 784$ neuronas, y se obtendrían como resultado $28 x 28 x 32 = 25.088$ matrices de salida, que se correspondería con el número de neuronas necesarias para la siguiente capa convolucional. Esto hace necesario introducir un mecanismo de reducción para que el número de neuronas necesarias no crezca tan desmesuradamente con cada capa. Este mecanismo se conoce como \textit{pooling} y existen distintos tipos de pooling. Uno de ellos es el \textit{MaxPooling}, y consiste en deslizar una ventana bidimensional sobre la matriz de entrada, de izquierda a derecha y de arriba a abajo. En cada una de las posiciones se tomará como valor resultante el máximo valor presente en la ventana. La capacidad de reducción del MaxPooling depende de dos factores: el tamaño de la ventana y el tamaño del salto que se da hacia la derecha y hacia abajo. En la figura \ref{fig:cnn_maxpooling} se muestra un ejemplo gráfico.
+Como resultado de aplicar la convolución sobre la matriz de entrada se obtiene una nueva matriz. Además del kernel, las capas convolucionales tienen otros parámetros asociados, como por ejemplo, cómo de rápido avanza el kernel durante el barrido.
+
+Las capas convolucionales no tiene un único kernel asociado, sino que tienen varios. Teniendo en cuenta esto y suponiendo que tenemos como entrada una imagen en blanco y negro de $28x28x1$ píxeles y que cada capa tiene $32$ kernels de $3x3$, la primera capa convolucional estaría compuesta por $28 x 28 = 784$ neuronas, y tras aplicar la operación de convolución, se obtendrían como resultado $32$ nuevas matrices de dimensiones $26 x 26$, que harían necesarias $26 x 26 x 32 = 21.632$ neuronas en la segunda capa. Teniendo en cuenta que una CNN puede estar compuesta por varias decenas de capas, se hace necesario introducir un mecanismo de reducción, para que el número de neuronas necesarias no crezca tan desmesuradamente con cada capa. Este mecanismo se conoce como \textit{pooling}. El \textit{MaxPooling}, es un tipo de pooling comunmente usado, y consiste en deslizar una ventana bidimensional sobre la matriz de entrada, de izquierda a derecha y de arriba a abajo. En cada una de las posiciones se tomará como valor resultante el máximo valor presente en la ventana. La capacidad de reducción del MaxPooling depende de dos factores: el tamaño de la ventana y el tamaño del salto que se da hacia la derecha y hacia abajo. En la figura \ref{fig:cnn_maxpooling} se muestra un ejemplo gráfico.
 
 \begin{figure}[H]
 	\centering
@@ -98,13 +106,41 @@ Cada una de las neuronas de las capas convolucionales no tiene un único kernel 
 	\label{fig:cnn_maxpooling}
 \end{figure}
 
-Las redes neuronales convolucionales utilizadas para la detección de objetos tienen como entrada una matriz bidimensional que se corresponde con la imagen (en caso de ser una imagen a color, serán 3 matrices bidimensionales, una por cada canal de color). Como salida se obtiene una lista de predicciones, cada una de las cuales se compone de una región representada por cuatro variables (coordenadas x e y de la esquina superior izquierda, anchura y altura) y de las probabilidades pertencencia del objeto en la región a cada una de las clases que la red es capaz de predecir.
+\subsubsection*{Transferencia de conocimiento (transfer learning)}
 
-Otra de las técnicas que se han utilizado en el proyecto es la denominada \textit{transferencia del conocimiento (transfer learning)} \cite{s5_transfer_learning}. Entrenar un modelo de detección de objetos es un proceso muy costoso, ya que se necesita un gran volumen de imágenes y una gran capacidad de cómputo. El \textit{transfer learning} viene a paliar este problema ya que permite utilizar un modelo ya entrenado como punto de partida para entrenar otro. Como se ha comentado anteriormente, las primeras capas convolucionales son capaces de detectar formas básicas y a medida que se profundiza en las capas, estas detectan formas más específicas. Si ya tenemos entrenado un modelo (a) para detectar un determinado tipo de objetos y queremos entrenar otro (b) para detectar otro tipo de objetos, las primeras capas de ambos modelos van a detectar el mismo tipo de formas, y serán las capas más profundas las que se diferencien. Por lo tanto podríamos utilizar el modelo \textit{a} como punto de partida para el modelo \textit{b}, y este último podrá aprender más rápido ya que las primeras capas ya están entrenadas para detectar formas básicas.
+% Otra de las técnicas que se han utilizado en el proyecto es la denominada \textit{transferencia del conocimiento (transfer learning)} \cite{s5_transfer_learning}.
+
+Entrenar un modelo de detección de objetos es un proceso muy costoso, ya que se necesita un gran volumen de imágenes y una gran capacidad de cómputo. El \textit{transfer learning} \cite{s5_transfer_learning} viene a paliar este problema ya que permite utilizar un modelo ya entrenado como punto de partida para entrenar otro. Como se ha comentado anteriormente, las primeras capas de una CNN son capaces de detectar formas básicas y a medida que se profundiza en las capas, estas detectan formas más específicas. Si ya tenemos entrenado un modelo \texttt{X} para detectar un determinado tipo de objetos y queremos entrenar otro \texttt{Y} para detectar otro tipo de objetos, las primeras capas de ambos modelos van a detectar el mismo tipo de formas, y serán las capas más profundas las que se diferencien. Por lo tanto podríamos utilizar el modelo \texttt{X} como punto de partida para el modelo \texttt{Y}, y este último podrá beneficiarse del conocimiento transferido aprender más rápido.
+
+Esta técnica se ha utilizado ampliamente durante la fase de entrenamiento. Se ha utilizado para aprovechar el conocimiento de los modelos YOLO ya entrenados proporcionados por sus autores. También se ha utilizado para lidiar con las limitaciones de uso que tiene la infraestructura utilizada durante el entrenamiento.
+
+\subsubsection*{YOLO V3}
+
+En la figura \ref{fig:yolov3architecture} se muestra la arquitectura de YOLO V3 de tamaño 416x416. Está compuesta por un total de 106 capas convolucionales. Tiene una única entrada, de dimensiones 416x416x3, y tres salidas de dimensiones 13x13x255, 26x26x255 y 52x52x255 respectivamente. Las tres salidas se corresponden con 3 escalas de detección de objetos, la primera de ellas sirve para detectar objetos grandes, la segunda objetos medianos y la tercera objetos pequeños.
+
+Como se explicó en la sección \textit{\nameref{sec:estado_del_arte}}, YOLO divide la imagen en una rejilla de $SxS$ celdas. En realidad, divide la imagen en tres rejillas que se corresponden con las 3 salidas. Para cada una de las celdas de estas rejillas se proponen un número $B$ regiones candidatas, en este caso son 5. Cada una de estas regiones candidatas están representadas por 5 variables, 4 para la región propiamente dicha y 1 para indicar la probabilidad de que la región contenga un objeto. YOLO es capaz de detectar 80 clases de objetos, por lo que junto a cada región candidata se añaden otras 80 variables para indicar la probabilidad de pertenencia a cada una de las clases. Con todo esto, cada una de las celdas de las rejillas se compone de $3 x (5 + 80) = 255$ variables.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{images/yolo_v3_architecture.png}
+	\caption{Arquitectura de YOLO V3 de tamaño 416x416}
+	\label{fig:yolov3architecture}
+\end{figure}
+
+\subsubsection*{YOLO V3 Tiny}
+
+En la figura \ref{fig:yolov3tinyarchitecture} se muestra la arquitectura YOLO V3 Tiny de tamaño 416x416. Está compuesta por un total de 13 capas convolucionales. Tiene una única entrada, de dimensiones 416x416, y dos salidas de dimensiones 13x13x255 y 26x26x255 respectivamente. El fundamento es el mismo que en YOLO V3. Se han reducido el número de capas convolucionales de manera considerable, lo cual simplifica el modelo y hace que sea apto para ejecutarse en un dispositivo con recursos limitados manteniendo la premisa de ser capaz de detectar objetos en tiempo real.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{images/yolo_v3_tiny_architecture.png}
+	\caption{Arquitectura de YOLO V3 Tiny de tamaño 416x416}
+	\label{fig:yolov3tinyarchitecture}
+\end{figure}
 
 \subsection{Explicar los métodos de evaluación que se van a utilizar en el proyecto}
 
-La métrica que se ha utilizado para evaluar el modelo obtenido es la \textit{AP} (Average Precision), que es la métrica que se utiliza para evaluar modelos de detección de objetos.
+La métrica que se ha utilizado para evaluar los modelo obtenidos es la \textit{AP} (Average Precision), que es la métrica que se utiliza en los problemas de detección de objetos.
 
 Antes de explicar en qué consiste la métrica \textit{AP} hay que explicar una serie de conceptos en los cuales está basada: IoU (intersección sobre la unión), precisión (precision) y sensibilidad (recall).
 
@@ -129,7 +165,7 @@ La \textit{sensibilidad} (recall)  mide la capacidad del modelo para detectar to
 	\nonumber
 \end{equation}
 
-Tanto en el cálculo de la \textit{precisión} como en el cálculo de la \textit{sensibilidad}, para determinar si una predicción es positiva, se utiliza el \textit{IoU}. Se define un umbral para el \textit{IoU} (normalmente suele ser 0.5) y si se supera dicho umbral, la predicción es considerada una predicción positiva.
+Tanto en el cálculo de la \textit{precisión} como en de la \textit{sensibilidad}, para determinar si una predicción es positiva, se utiliza el \textit{IoU}. Se define un umbral para el \textit{IoU} (normalmente suele ser 0.5) y si se supera dicho umbral, la predicción es considerada positiva.
 
 La métrica \textit{AP} se calcula como el área debajo de la curva \textit{precisión-sensibilidad} (precision-recall). En el eje de las abscisas se representa la \textit{sensibilidad} (recall) y en el eje de las ordenadas se representa la \textit{precisión} (precision).
 

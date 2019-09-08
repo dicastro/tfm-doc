@@ -7,7 +7,7 @@ En este apartado se explica cómo se ha implementado el proyecto. Para ello se m
 
 \subsubsection*{Estructura del proyecto}
 
-Como se ha comentado anteriormente el proyecto se basa en dos implementaciones de YOLO (\textit{v3} y \textit{v3 tiny}) utilizando keras. Ambas implementaciones han sido unificadas en una \cite{s3_yolo_dicastro} que soporta ambos tipos de red. Dicha implementación presenta la estructura que se muestra a continuación (únicamente se muestran los elementos más relevantes y con un asterisco los scripts principales, el resto son auxiliares):
+Como se ha comentado anteriormente el proyecto se basa en dos implementaciones de YOLO en Keras (V3 y V3 Tiny). Ambas implementaciones han sido unificadas en una \cite{s3_yolo_dicastro} que soporta ambos tipos de red. Dicha implementación presenta la estructura que se muestra a continuación (únicamente se muestran los elementos más relevantes y con un asterisco los scripts principales, el resto son auxiliares):
 
 \begin{itemize}
 	\item \texttt{utils}
@@ -31,24 +31,24 @@ Como se ha comentado anteriormente el proyecto se basa en dos implementaciones d
 A continuación se describe la funcionalidad general de cada uno de estos scripts:
 
 \begin{itemize}
-	\item \texttt{utils/bbox.py}: contiene la definición de la clase \texttt{BoundBox} que se utiliza para representar cada una de las predicciones obtenidas con el modelo. Tiene los atributos necesarios para identificar la región y la probabilidad de pertenencia del objeto a cada una de las clases.
-	\item \texttt{utils/utils.py}: contiene funciones de cálculo auxiliares, como por ejemplo una función para calcular el \textit{AP} de un modelo, otra función para el procesamiento de la salida del modelo, etc.
+	\item \texttt{utils/bbox.py}: contiene la definición de la clase \texttt{BoundBox} que se utiliza para representar cada una de las predicciones obtenidas. Tiene los atributos necesarios para identificar la región y la probabilidad de pertenencia del objeto a cada una de las clases.
+	\item \texttt{utils/utils.py}: contiene funciones de cálculo auxiliares, como por ejemplo una función para calcular la \textit{AP} de un modelo, otra función para el procesamiento de la salida del modelo, etc.
 	\item \texttt{annotations.py}: este script permite procesar los ficheros con las etiquetas de las imágenes. Es capaz de procesar annotaciones en formato \texttt{voc} y en formato \texttt{txt}.
-	\item \texttt{callbacks.py}: contiene la definición de \textit{callbacks} de keras customizados. Un ejemplo, es un callback que se ha definido para que se ejecute al final de cada época y persista en disco el modelo actual siempre que mejore con respecto al de la época anterior.
+	\item \texttt{callbacks.py}: contiene la definición de unos \textit{callbacks} de keras customizados. Como por ejemplo, un callback que se ha definido para que se ejecute al final de cada época y persista en disco el modelo actual siempre que mejore con respecto al de la época anterior.
 	\item \texttt{evaluate.py}: este script permite evaluar un modelo calculando su \textit{AP}.
-	\item \texttt{predict.py}: este script permite obtener las predicciones de una imagen, de las imágenes de un directorio o de un video.
-	\item \texttt{train.py}: este script permite entrenar un modelo en base a un fichero de configuración, recibido como argumento.
-	\item \texttt{yolo\_generator.py}: contiene la definición de la clase \texttt{BatchGenerator} que se utiliza para alimentar los modelos de tipo \textit{YOLO v3}. Tiene configurado, entre otras cosas, un directorio que contiene imágenes y sus correspondientes anotaciones. Se encarga de proporcionar al modelo las imágenes a medida que las va necesitando. Es muy útil cuando se tienen grandes cantidades de datos, ya que evita tener que cargar todos los datos en memoria. Se encarga también del preprocesamiento de las imágenes, que en este caso consiste en redimensionar la imagen al tamaño de la red neuronal y normalizarla dividiendo entre $255$. Además, durante la fase de entrenamiento, realiza otro tipo de transformaciones aleatorias, como por ejemplo rotaciones, cambios de saturación o de color.
-	\item \texttt{yolo\_v3\_weight\_reader.py}: contiene la definición de la clase \texttt{WeightReader}  que es capaz de transformar los pesos ya entrenados de la red \textit{YOLO v3} en formato \textit{darknet} a formato \textit{keras}.
-	\item \texttt{yolo.py}:  contiene la definición del modelo \textit{YOLO v3} con cada una de sus capas convolucionales y sus interconexiones.
-	\item \texttt{yolo\_tiny\_generator.py}: contiene la definición de la clase \texttt{BatchGenerator}, pero adaptada para los modelos \textit{YOLO v3 tiny}.
-	\item \texttt{yolo\_tiny\_weight\_reader.py}: contiene la definición de la clase \texttt{WeightReader}  que es capaz de transformar los pesos ya entrenados de la red \textit{YOLO v3 tiny} en formato \textit{darknet} a formato \textit{keras}.
-	\item \texttt{yolo\_tiny.py}: contiene la definición del modelo \textit{YOLO v3 tiny} con cada una de sus capas convolucionales y sus interconexiones.
+	\item \texttt{predict.py}: este script permite obtener las predicciones a partir de una imagen, de las imágenes de un directorio o de un video.
+	\item \texttt{train.py}: este script permite entrenar un modelo.
+	\item \texttt{yolo\_generator.py}: contiene la definición de la clase \texttt{BatchGenerator} que se utiliza para alimentar los modelos YOLO V3. Tiene configurado, entre otras cosas, un directorio que contiene imágenes y sus correspondientes anotaciones. Se encarga de proporcionar al modelo las imágenes a medida que las va necesitando. Es muy útil cuando se tienen grandes cantidades de datos, ya que evita tener que cargar todos los datos en memoria. Se encarga también del preprocesamiento de las imágenes, que en este caso consiste en redimensionar la imagen al tamaño de la red neuronal y normalizarla dividiendo entre $255$. Además, durante la fase de entrenamiento, realiza otro tipo de transformaciones aleatorias, como por ejemplo rotaciones, cambios de saturación o de color.
+	\item \texttt{yolo\_v3\_weight\_reader.py}: contiene la definición de la clase \texttt{WeightReader}  que es capaz de transformar los pesos ya entrenados de la red YOLO V3 en formato \textit{darknet} a formato \textit{keras}.
+	\item \texttt{yolo.py}:  contiene la definición en keras del modelo YOLO V3.
+	\item \texttt{yolo\_tiny\_generator.py}: contiene la definición de la clase \texttt{BatchGenerator}, pero adaptada para los modelos YOLO V3 Tiny.
+	\item \texttt{yolo\_tiny\_weight\_reader.py}: contiene la definición de la clase \texttt{WeightReader}  que es capaz de transformar los pesos ya entrenados de la red YOLO V3 Tiny en formato \textit{darknet} a formato \textit{keras}.
+	\item \texttt{yolo\_tiny.py}: contiene la definición en keras del modelo YOLO V3 Tiny.
 \end{itemize}
 
 \subsubsection*{Configuración}
 
-Tanto el entrenamiento, como la evaluación, como la predicción de imágenes se basan en un fichero de configuración que tiene el siguiente formato:
+Tanto el entrenamiento, como la evaluación, como la predicción de imágenes se basan en un fichero de configuración que hay que pasar como argumento y que tiene el siguiente formato:
 
 \begin{lstlisting}[frame=single, basicstyle=\ttfamily\footnotesize, caption={Configuración de ejemplo}, captionpos=b]
 {
@@ -98,9 +98,9 @@ La configuración está dividida en tres secciones. La sección \texttt{model} d
 A continuación se describen las principales propiedades de configuración:
 
 \begin{itemize}
-	\item \texttt{model.type}: tipo de modelo que se quiere entrenar. Se soportan dos tipos: \texttt{v3} y \texttt{tiny}, que se corresponden con \textit{YOLO v3} y \textit{YOLO v3 tiny} respectivamente.
-	\item \texttt{model.min\_input\_size} y \texttt{model.max\_input\_size}: tamaño mínimo y máximo de la red. La red neuronal YOLO en su versión 3 es una red neuronal de tamaño variable. Por cada 10 imágenes procesadas, durante la fase de entrenamiento, se hará un redimensionamiento de la red a un tamaño aleatorio entre el mínimo y el máximo configurados.
-	\item \texttt{model.anchors}: lista con las relaciones de aspecto ancho-alto más frecuentes de los objetos a detectar. Estos anchors son usados por YOLO para proponer las regiones. Con el script, no mencionado anteriormente,  \texttt{gen\_anchors.py} se puede obtener fácilmente esta lista. Lo que hace el script es aplicar \textit{k-means} sobre las etiquetas de las imágenes.
+	\item \texttt{model.type}: tipo de modelo que se quiere utilizar. Admite los valores: \texttt{v3} y \texttt{tiny}, que se corresponden con YOLO V3 y YOLO V3 Tiny respectivamente.
+	\item \texttt{model.min\_input\_size} y \texttt{model.max\_input\_size}: tamaño mínimo y máximo de la red. La red neuronal YOLO en su versión 3 es una red neuronal de tamaño variable. Durante la fase de entrenamiento se cambia el tamaño de la red cada 10 imágenes procesadas. Se establece de forma aleatoria un nuevo tamaño entre los rangos configurados.
+	\item \texttt{model.anchors}: lista con las relaciones de aspecto ancho-alto más frecuentes de los objetos a detectar. Estos anchors son usados por YOLO para proponer las regiones. Con el script \texttt{gen\_anchors.py} se puede obtener fácilmente esta lista. Lo que hace el script es aplicar \textit{k-means} sobre las etiquetas de las imágenes.
 	\item \texttt{model.labels}: lista con los nombres de las clases de los objetos etiquetados en las imágenes.
 	\item \texttt{model.data\_load\_method}: formato en el que están representadas las etiquetas de las imágenes. Acepta los valores \texttt{txt} y \texttt{voc} (XML).
 	\item \texttt{train.train\_image\_folder}: ruta al directorio donde se encuentran las imágenes de entrenamiento.
@@ -114,7 +114,7 @@ A continuación se describen las principales propiedades de configuración:
 	\item \texttt{train.learning\_rate}: número que permite ajustar cómo de rápido aprende el modelo.
 	\item \texttt{train.early\_stopping\_patience}: número de épocas que tienen que pasar sin que el modelo mejore para que se detenga el aprendizaje de manera automática, aunque no se haya llegado al número de épocas configuradas.
 	\item \texttt{train.reduce\_lr\_on\_plateau\_patience}: número de épocas que tienen que pasar sin que el modelo mejore para que se reduzca el \texttt{train.learning\_rate} de manera automática.
-	\item \texttt{train.ignore\_thresh}: umbral por debajo del cual una predicción es ignorada por lo representar suficientemente a ninguno de los objetos a detectar. Se utiliza la \textit{IoU} como unidad de medida. Si el valor de \textit{IoU} entre la región predicha y las regiones a detectar es inferior al límite configurado, la predicción es rechazada.
+	\item \texttt{train.ignore\_thresh}: umbral por debajo del cual una predicción es ignorada por no representar suficientemente a ninguno de los objetos a detectar. Se utiliza la \textit{IoU} como unidad de medida. Si el valor de \textit{IoU} entre la región predicha y las regiones a detectar es inferior al límite configurado, la predicción es rechazada.
 	\item \texttt{valid.duplicate\_thresh}: umbral por encima del cual dos predicciones se consideran la misma. Se utiliza la \textit{IoU} como unidad de medida. Si el valor de \textit{IoU} entre varias de las regiones predichas para una misma imagen es superior al umbral configurado, se considerarán la misma predicción y prevalecerá la que tenga un valor más alto de \textit{IoU} con respecto a la región a detectar. Esto es lo que se conoce como \textit{Non-Maximun Suppression} \cite{s6_nonmaximunsuppression}
 	\item \texttt{train.train\_times}: número de veces que se recorre el conjunto de entrenamiento por cada época. Esto es útil cuando el conjunto de entrenamiento contiene pocas imágenes.
 \end{itemize}
@@ -130,7 +130,7 @@ Se soportan dos formatos para las etiquetas de las imágenes: \texttt{txt} y \te
 
 En el formato \texttt{voc} existe un fichero \textit{xml} para cada una de las imágenes con el siguiente aspecto:
 
-\begin{lstlisting}[frame=single, basicstyle=\ttfamily\footnotesize, caption={Ejemplo de fichero con las etiquetas en formato voc}, captionpos=b]
+\begin{lstlisting}[frame=single, basicstyle=\ttfamily\footnotesize, caption={Ejemplo de fichero con las etiquetas en formato voc para una imagen}, captionpos=b]
 <annotation>
   <folder>/tmp</folder>
   <filename>imagen1.jpg</filename>
@@ -168,11 +168,11 @@ Con todo lo anterior se dispone de lo necesario para ejecutar el script \texttt{
 > python gen_anchors.py --config config.json --anchors 9
 \end{lstlisting}
 
-Como resultado se obtendrá una lista con tantos anchors como se hayan indicado. Cada anchor está compuesto por una pareja de números, que representan el ancho y el alto del anchor.
+Como resultado se obtendrá una lista con tantos anchors como se hayan indicado. Cada anchor está compuesto por una pareja de números, que representan el ancho y el alto del anchor. El número de anchors a generar dependerá de la versión de YOLO. Para YOLO V3 hacen falta 9 anchors, 3 anchors para cada una de las escalas de detección de objetos. Para YOLO V3 Tiny harán falta 6 anchors, ya que únicamente tiene 2 escalas de detección.
 
 \subsubsection*{Entrenamiento}
 
-Para poder entrenar un modelo hace falta lo siguiente:
+Para entrenar un modelo es necesario:
 
 \begin{itemize}
 	\item Disponer de un conjunto de imágenes de entrenamiento
@@ -187,11 +187,11 @@ Una vez que se dispone de todo lo anterior, lo único que queda por hacer es eje
 > python train.py --config config.json
 \end{lstlisting}
 
-Una vez finaliza el entrenamiento, y si se ha configurado el bloque \texttt{valid} en el fichero de configuración, se realizará una evaluación del modelo obtenido.
+Una vez finaliza el entrenamiento, y si se ha configurado el bloque \texttt{valid} en el fichero de configuración, se realizará una evaluación del modelo entrenado.
 
 \subsubsection*{Evaluación}
 
-Para poder evaluar un modelo entrenado hará falta:
+Para evaluar un modelo YOLO se necesita:
 
 \begin{itemize}
 	\item Disponer de un conjunto de imágenes de test
@@ -210,7 +210,7 @@ La evaluación hace el cálculo de la \textit{AP} tanto de una forma global como
 
 \subsubsection*{Predicción}
 
-Para realizar una predicción con el modelo ya entrenado es necesario:
+Para hacer una predicción con el modelo ya entrenado es necesario:
 
 \begin{itemize}
 	\item Disponer de una imagen o directorio con imágenes o vídeo
@@ -231,11 +231,11 @@ Con todo lo anterior, se ejecuta el script \texttt{predict.py}:
 > python predict.py -c config.json -i /tmp/imagenes -o /tmp/pred/
 \end{lstlisting}
 
-En el directorio de salida habrá el mismo contenido que en la entrada modificado con las etiquetas que se han encontrado.
+En el directorio de salida habrá el mismo contenido que en la entrada, modificado con las etiquetas que se han encontrado.
 
 \subsubsection*{Transformación del modelo}
 
-Para explotar un modelo entrenado en un dispositivo móvil es necesario realizar una transformación del mismo. Para realizar esta transformación, \textit{TFLite} que proporciona una serie de utilidades. En el siguiente bloque de código se muestra un ejemplo:
+Para explotar un modelo entrenado en un dispositivo móvil es necesario realizar una transformación del mismo. Para realizar esta transformación, \textit{TFLite} proporciona una serie de utilidades. En el siguiente bloque de código se muestra un ejemplo:
 
 \begin{lstlisting}[frame=single, basicstyle=\ttfamily\footnotesize, language=Python, caption={Cómo transformar un modelo entrenado con \textit{Keras} a formato \textit{TFLite}}, captionpos=b]
 import tensorflow as tf
@@ -272,7 +272,7 @@ Interpreter.Options interpreterOptions = new Interpreter.Options()
 Interpreter tfLite = new Interpreter(model, interpreterOptions);
 \end{lstlisting}
 
-En la variable \texttt{tflite} se tiene disponible el modelo ya cargado, listo para ser explotado. Para ello, hay que proporcionarle los vectores que se espera como entrada e indicarle los vectores donde devolver el resultado. En el siguiente ejemplo se crea un único vector de entrada de dimensiones $1 x 256 x 256 x 3$, que se correspondería con una imagen a color de $256x256$. Y se crean 2 vectores de salida de tamaños $8 x 8 x 18$ y $16 x 16 x 18$, que se corresponden con los vectores de salida de la versión YOLO \textit{v3 tiny} con un tamaño de $256$:
+En la variable \texttt{tflite} se tiene disponible el modelo ya cargado, listo para ser explotado. Para ello, hay que proporcionarle los vectores que se espera como entrada e indicarle los vectores donde devolver el resultado. En el siguiente ejemplo se crea un único vector de entrada de dimensiones $1 x 256 x 256 x 3$, que se correspondería con una imagen a color de $256x256$. Y se crean 2 vectores de salida de tamaños $8 x 8 x 18$ y $16 x 16 x 18$, que se corresponden con los vectores de salida de la versión YOLO V3 Tiny con un tamaño de $256$:
 
 \begin{lstlisting}[frame=single, basicstyle=\ttfamily\footnotesize, language=Java, caption={Creación de vectores de entrada y de salida del modelo}, captionpos=b]
 float[][][][] floatValues = new float[1][256][256][3];
@@ -305,13 +305,13 @@ Una vez termine de ejecutarse el método \texttt{runForMultipleInputsOutputs}, e
 
 \subsection{Evaluación de las técnicas}
 
-Se han entrenado dos versiones de YOLO: la versión \textit{v3} y la versión \textit{v3 tiny}. La versión \textit{v3 tiny} es la versión indicada para ser ejecutada en un dispositivo móvil. La versión \textit{v3} se ha entrenado para compararla con la tiny.
+Como ya se ha comentado con anterioridad, se han entrenado dos versiones de YOLO: la versión V3 y la versión V3 Tiny.
 
-Para cada una de estas versiones se han entrenado varios modelos con distintos tamaños de red, por dos motivos principalmente: por una cuestión de rendimiento a la hora de ejecutar el modelo en un dispositivo móvil y por analizar cómo varía la precisión del modelo cambiando el tamaño de la red.
+Para cada una de estas versiones, se han entrenado varios modelos con distintos tamaños de red, por dos motivos principalmente: por una cuestión de rendimiento a la hora de ejecutar el modelo en un dispositivo móvil y por analizar cómo varía la precisión del modelo cambiando el tamaño de la red. La versión YOLO V3 ha sido entrenada con 3 tamaños (640, 416 y 256) y la versión YOLO V3 Tiny con 2 tamaños (416 y 256)
 
-Además se han utilizado distintos conjuntos de entrenamiento para entrenar todas las variantes del modelo. El primero de los conjuntos de entrenamiento se corresponde con el conjunto íntegro original (denominado \textit{completo}). Los resultados obtenidos con este conjunto de entrenamiento obtuvieron unos valores bajos para la métrica \textit{AP}, y tras analizar los motivos, se observó que había una gran cantidad de baches demasiado pequeños que podían ser los causantes malos resultados. Por este motivo, se han utilizado dos conjuntos de entrenamiento adicionales aplicando filtros sobre los baches. En el primero de estos conjuntos de entrenamiento adicionales se han filtrado los baches con tamaño superior a 75x30 píxeles (denominado \textit{filtro 75x30}) y en el segundo se han filtrado los baches con tamaño superior a 100x40 píxeles (denominado \textit{filtro 100x40}). Para cada uno de estos conjuntos de entrenamiento adicionales se ha creado también su correspondiente conjunto de evaluación aplicando el mismo filtro.
+Además, cada de los modelos anteriores ha sido entrenado por triplicado, utilizando distintos conjuntos de entrenamiento en cada ocasión. Se han utilizado 3 conjuntos de entrenamiento diferentes, obteniéndose un total de 15 modelos. El primero de los conjuntos de entrenamiento se corresponde con el conjunto íntegro original (denominado \textit{completo}). Para obtener el segundo de los conjuntos de entrenamiento, se ha aplicado un filtro sobre el conjunto original, seleccionando únicamente los baches con un tamaño superior a 75x30 píxeles (denominado \textit{filtro 75x30}). El tercero de los conjuntos (denominado \textit{filtro 100x40}) es similar como el anterior pero con un filtro diferente, en esta ocasión se han seleccionado los baches con tamaño superior a 100x40 píxeles. Para cada uno de estos conjuntos de entrenamiento filtrados se ha creado también su correspondiente conjunto de evaluación aplicando el mismo filtro.
 
-Con todos los modelos resultantes obtenidos se ha realizado una doble evaluación. Por un lado se han evaluado con los conjuntos de evaluación correspondientes para cada uno de los conjuntos de entrenamiento (resultados en la tabla \ref{tab:evaluationoriginal}). Por otro lado se han evaluado con un conjunto de imágenes generado (resultados en la tabla \ref{tab:evaluationcustom}). Este conjunto de evaluación (denominado \textit{propio}) se compone de unas 30 imágenes de 4032x3024 píxeles, con unos 60 baches en total, obtenido desde la acera (a diferencia del original que fue obtenido desde el coche) y compuesto por fotos realizadas en España (a diferencia del original que fueron realizadas en Sudáfrica).
+Con todos los modelos resultantes obtenidos se ha realizado una doble evaluación. Por un lado se han evaluado los modelos con los conjuntos de evaluación correspondientes a cada uno de los conjuntos de entrenamiento (resultados en la tabla \ref{tab:evaluationoriginal}). Por otro lado se han evaluado con un conjunto de imágenes generado (resultados en la tabla \ref{tab:evaluationcustom}). Este conjunto de evaluación (denominado \textit{propio}) se compone de unas 30 imágenes de 4032x3024 píxeles, con unos 60 baches en total, obtenido desde la acera (a diferencia del original que fue obtenido desde el coche) y compuesto por fotos realizadas en España (a diferencia del original que fueron realizadas en Sudáfrica).
 
 \begin{table}[H]
 	\centering
