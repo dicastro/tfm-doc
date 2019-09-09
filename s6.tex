@@ -309,9 +309,9 @@ Como ya se ha comentado con anterioridad, se han entrenado dos versiones de YOLO
 
 Para cada una de estas versiones, se han entrenado varios modelos con distintos tamaños de red, por dos motivos principalmente: por una cuestión de rendimiento a la hora de ejecutar el modelo en un dispositivo móvil y por analizar cómo varía la precisión del modelo cambiando el tamaño de la red. La versión YOLO V3 ha sido entrenada con 3 tamaños (640, 416 y 256) y la versión YOLO V3 Tiny con 2 tamaños (416 y 256)
 
-Además, cada de los modelos anteriores ha sido entrenado por triplicado, utilizando distintos conjuntos de entrenamiento en cada ocasión. Se han utilizado 3 conjuntos de entrenamiento diferentes, obteniéndose un total de 15 modelos. El primero de los conjuntos de entrenamiento se corresponde con el conjunto íntegro original (denominado \textit{completo}). Para obtener el segundo de los conjuntos de entrenamiento, se ha aplicado un filtro sobre el conjunto original, seleccionando únicamente los baches con un tamaño superior a 75x30 píxeles (denominado \textit{filtro 75x30}). El tercero de los conjuntos (denominado \textit{filtro 100x40}) es similar como el anterior pero con un filtro diferente, en esta ocasión se han seleccionado los baches con tamaño superior a 100x40 píxeles. Para cada uno de estos conjuntos de entrenamiento filtrados se ha creado también su correspondiente conjunto de evaluación aplicando el mismo filtro.
+Además, cada de los modelos anteriores ha sido entrenado por triplicado, utilizando distintos conjuntos de entrenamiento en cada ocasión. Se han utilizado 3 conjuntos de entrenamiento diferentes, obteniéndose un \textbf{total de 15 modelos}. El primero de los conjuntos de entrenamiento se corresponde con el conjunto íntegro original (denominado \textit{completo}). Para obtener el segundo de los conjuntos de entrenamiento, se ha aplicado un filtro sobre el conjunto original, seleccionando únicamente los baches con un tamaño superior a 75x30 píxeles (denominado \textit{filtro 75x30}). El tercero de los conjuntos (denominado \textit{filtro 100x40}) es similar como el anterior pero con un filtro diferente, en esta ocasión se han seleccionado los baches con tamaño superior a 100x40 píxeles. Para cada uno de estos conjuntos de entrenamiento filtrados se ha creado también su correspondiente conjunto de evaluación aplicando el mismo filtro.
 
-Con todos los modelos resultantes obtenidos se ha realizado una doble evaluación. Por un lado se han evaluado los modelos con los conjuntos de evaluación correspondientes a cada uno de los conjuntos de entrenamiento (resultados en la tabla \ref{tab:evaluationoriginal}). Por otro lado se han evaluado con un conjunto de imágenes generado (resultados en la tabla \ref{tab:evaluationcustom}). Este conjunto de evaluación (denominado \textit{propio}) se compone de unas 30 imágenes de 4032x3024 píxeles, con unos 60 baches en total, obtenido desde la acera (a diferencia del original que fue obtenido desde el coche) y compuesto por fotos realizadas en España (a diferencia del original que fueron realizadas en Sudáfrica).
+Con todos los modelos resultantes obtenidos se ha realizado una \textbf{doble evaluación}. Por un lado se han evaluado los modelos con los conjuntos de evaluación correspondientes a cada uno de los conjuntos de entrenamiento (resultados en la tabla \ref{tab:evaluationoriginal}). Por otro lado se han evaluado con un conjunto propio de imágenes (resultados en la tabla \ref{tab:evaluationcustom}). Este conjunto de evaluación (denominado \textit{propio}) se compone de unas 30 imágenes de 4032x3024 píxeles, con unos 60 baches en total, obtenido desde la acera (a diferencia del original que fue obtenido desde el coche) y compuesto por fotos realizadas en España (a diferencia del original que fueron realizadas en Sudáfrica).
 
 \begin{table}[H]
 	\centering
@@ -326,13 +326,13 @@ Con todos los modelos resultantes obtenidos se ha realizado una doble evaluació
 		V3      &     416 &  filtro 100x40 &      93 &    0.4161 \\
 		V3      &     416 &   filtro 75x30 &      93 &    0.3611 \\
 		V3      &     640 &       completo &      13 &    0.0186 \\
-		V3      &     640 &  filtro 100x40 &      63 &    0.5475 \\
+		\textbf{V3}      &     \textbf{640} &  \textbf{filtro 100x40} &      \textbf{63} &    \textbf{0.5475} \\
 		V3      &     640 &   filtro 75x30 &      53 &    0.4106 \\
 		V3 Tiny &     256 &       completo &     144 &    0.0046 \\
 		V3 Tiny &     256 &  filtro 100x40 &     136 &    0.0510 \\
 		V3 Tiny &     256 &   filtro 75x30 &     153 &    0.0392 \\
 		V3 Tiny &     416 &       completo &     153 &    0.0145 \\
-		V3 Tiny &     416 &  filtro 100x40 &     153 &    0.1307 \\
+		\textbf{V3 Tiny} &     \textbf{416} &  \textbf{filtro 100x40} &     \textbf{153} &    \textbf{0.1307} \\
 		V3 Tiny &     416 &   filtro 75x30 &     146 &    0.0869 \\
 		\bottomrule
 	\end{tabular}
