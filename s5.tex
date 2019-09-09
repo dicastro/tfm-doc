@@ -11,7 +11,7 @@ El entrenamiento de las redes neuronales YOLO se ha realizado siguiendo esta té
 
 \subsubsection*{\textit{Red Neuronal Convolucional (CNN)}}
 
-Tal y como se ha comentado en el apartado \textit{\nameref{sec:estado_del_arte}}, YOLO es una red neuronal convolucional, por lo que antes de entrar en los detalles se va a explicar cómo funciona una CNN \cite{s5_cnn1} \cite{s5_cnn2} \cite{s5_cnn3}.
+Tal y como se ha comentado en el apartado \textit{\nameref{sec:estado_del_arte}}, YOLO es una red neuronal convolucional, por lo que antes de entrar en los detalles se va a explicar cómo funciona una CNN \cite{s5_cnn1} \cite{s5_cnn2}.
 
 Las CNNs están compuestas por una sucesión de capas convolucionales, para la extracción de características, seguidas de unas capas perceptrón simples, para la clasificación final. Las capas convolucionales forman una jerarquía, de forma que las capas del principio son capaces de detectar formas básicas y cuanto más ``profunda'' es la capa, más complejas son las formas que son capaces de detectar. Por ejemplo: una capa inicial sería capaz de detectar líneas y círculos, mientras que una capa profunda sería capaz de detectar una cara.
 
@@ -108,9 +108,9 @@ Las capas convolucionales no tiene un único kernel asociado, sino que tienen va
 
 \subsubsection*{Transferencia de conocimiento (transfer learning)}
 
-% Otra de las técnicas que se han utilizado en el proyecto es la denominada \textit{transferencia del conocimiento (transfer learning)} \cite{s5_transfer_learning}.
+% Otra de las técnicas que se han utilizado en el proyecto es la denominada \textit{transferencia del conocimiento (transfer learning)}.
 
-Entrenar un modelo de detección de objetos es un proceso muy costoso, ya que se necesita un gran volumen de imágenes y una gran capacidad de cómputo. El \textit{transfer learning} \cite{s5_transfer_learning} viene a paliar este problema ya que permite utilizar un modelo ya entrenado como punto de partida para entrenar otro. Como se ha comentado anteriormente, las primeras capas de una CNN son capaces de detectar formas básicas y a medida que se profundiza en las capas, estas detectan formas más específicas. Si ya tenemos entrenado un modelo \texttt{X} para detectar un determinado tipo de objetos y queremos entrenar otro \texttt{Y} para detectar otro tipo de objetos, las primeras capas de ambos modelos van a detectar el mismo tipo de formas, y serán las capas más profundas las que se diferencien. Por lo tanto podríamos utilizar el modelo \texttt{X} como punto de partida para el modelo \texttt{Y}, y este último podrá beneficiarse del conocimiento transferido aprender más rápido.
+Entrenar un modelo de detección de objetos es un proceso muy costoso, ya que se necesita un gran volumen de imágenes y una gran capacidad de cómputo. El \textit{transfer learning} viene a paliar este problema ya que permite utilizar un modelo ya entrenado como punto de partida para entrenar otro. Como se ha comentado anteriormente, las primeras capas de una CNN son capaces de detectar formas básicas y a medida que se profundiza en las capas, estas detectan formas más específicas. Si ya tenemos entrenado un modelo \texttt{X} para detectar un determinado tipo de objetos y queremos entrenar otro \texttt{Y} para detectar otro tipo de objetos, las primeras capas de ambos modelos van a detectar el mismo tipo de formas, y serán las capas más profundas las que se diferencien. Por lo tanto podríamos utilizar el modelo \texttt{X} como punto de partida para el modelo \texttt{Y}, y este último podrá beneficiarse del conocimiento transferido aprender más rápido.
 
 Esta técnica se ha utilizado ampliamente durante la fase de entrenamiento. Se ha utilizado para aprovechar el conocimiento de los modelos YOLO ya entrenados proporcionados por sus autores. También se ha utilizado para lidiar con las limitaciones de uso que tiene la infraestructura utilizada durante el entrenamiento.
 
